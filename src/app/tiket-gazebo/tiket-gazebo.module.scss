@@ -1,0 +1,311 @@
+@use 'sass:color';
+
+.header {
+  background: linear-gradient(135deg, $color-primary-dark 0%, $color-primary 100%);
+  color: $color-white;
+  padding: $space-16 0 $space-12 0;
+  text-align: center;
+
+  .eyebrow {
+    display: inline-block;
+    font-size: $text-xs;
+    font-weight: $weight-bold;
+    letter-spacing: $tracking-wide;
+    text-transform: uppercase;
+    color: $color-accent-light;
+    margin-bottom: $space-2;
+  }
+
+  .title {
+    font-family: $font-heading;
+    font-size: $text-3xl;
+    font-weight: $weight-bold;
+    color: $color-white;
+    margin-bottom: $space-4;
+
+    @include respond-to(md) {
+      font-size: $text-4xl;
+    }
+  }
+
+  .subtitle {
+    font-size: $text-base;
+    color: rgba($color-white, 0.9);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: $leading-relaxed;
+
+    @include respond-to(md) {
+      font-size: $text-lg;
+    }
+  }
+}
+
+.section {
+  padding: $space-12 0;
+
+  @include respond-to(md) {
+    padding: $space-16 0;
+  }
+}
+
+.sectionAlt {
+  background-color: $color-surface-alt;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+}
+
+// ---- Ticket Cards ----
+.ticketGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ticketCard {
+  background-color: $color-white;
+  padding: $space-8;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @include transition(transform box-shadow);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+  }
+
+  .ticketTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: $space-4;
+  }
+
+  .ticketName {
+    font-size: $text-xl;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
+
+  .ticketPrice {
+    font-size: $text-2xl;
+    font-weight: $weight-bold;
+    color: $color-primary;
+
+    span {
+      font-size: $text-xs;
+      font-weight: $weight-medium;
+      color: $color-text-secondary;
+    }
+  }
+
+  .ticketDesc {
+    font-size: $text-sm;
+    color: $color-text-secondary;
+    line-height: $leading-relaxed;
+    margin-bottom: $space-6;
+  }
+
+  .perksList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    margin-bottom: $space-6;
+  }
+
+  .perkItem {
+    font-size: $text-sm;
+    color: $color-text-primary;
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      color: $color-primary;
+      flex-shrink: 0;
+    }
+  }
+}
+
+// ---- Gazebo Catalog Cards ----
+.gazeboGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gazeboCard {
+  background-color: $color-white;
+  padding: $space-6;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @include transition(transform box-shadow);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+  }
+
+  .gazeboHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $space-3;
+  }
+
+  .codeBadge {
+    background-color: $color-primary-50;
+    color: $color-primary-dark;
+    font-family: monospace;
+    font-weight: $weight-bold;
+    font-size: $text-xs;
+    padding: $space-1 $space-3;
+    border-radius: $radius-md;
+    letter-spacing: $tracking-wide;
+  }
+
+  .gazeboName {
+    font-size: $text-lg;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $space-2;
+  }
+
+  .gazeboDetails {
+    display: flex;
+    gap: $space-4;
+    font-size: $text-xs;
+    color: $color-text-secondary;
+    margin-bottom: $space-4;
+
+    .detailItem {
+      display: flex;
+      align-items: center;
+      gap: $space-1;
+
+      svg {
+        width: 14px;
+        height: 14px;
+        color: $color-primary;
+      }
+    }
+  }
+
+  .gazeboPrice {
+    font-size: $text-xl;
+    font-weight: $weight-bold;
+    color: $color-primary;
+    margin-bottom: $space-4;
+
+    span {
+      font-size: $text-xs;
+      font-weight: $weight-medium;
+      color: $color-text-secondary;
+    }
+  }
+
+  .gazeboDesc {
+    font-size: $text-sm;
+    color: $color-text-secondary;
+    line-height: $leading-relaxed;
+    margin-bottom: $space-6;
+  }
+}
+
+// ---- Policy Grid ----
+.policyGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.policyCard {
+  background-color: $color-white;
+  padding: $space-6;
+  border-radius: $radius-xl;
+  border: 1px solid $color-border;
+  display: flex;
+  gap: $space-4;
+  align-items: flex-start;
+
+  .policyIcon {
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-lg;
+    background-color: $color-primary-50;
+    color: $color-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .policyTitle {
+    font-size: $text-base;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $space-1;
+  }
+
+  .policyDesc {
+    font-size: $text-sm;
+    color: $color-text-secondary;
+    line-height: $leading-relaxed;
+  }
+}
+
+// ---- Booking CTA Banner ----
+.ctaBox {
+  background: linear-gradient(135deg, $color-primary-dark 0%, $color-primary 100%);
+  color: $color-white;
+  padding: $space-12 $space-6;
+  border-radius: $radius-2xl;
+  text-align: center;
+  margin-top: $space-12;
+
+  h2 {
+    font-family: $font-heading;
+    font-size: $text-2xl;
+    color: $color-white;
+    margin-bottom: $space-3;
+  }
+
+  p {
+    font-size: $text-base;
+    color: rgba($color-white, 0.9);
+    max-width: 580px;
+    margin: 0 auto $space-6 auto;
+  }
+}

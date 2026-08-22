@@ -2,6 +2,11 @@
   text-align: center;
   max-width: 720px;
   margin-inline: auto;
+  margin-bottom: $space-8;
+
+  @include respond-to(md) {
+    margin-bottom: $space-12;
+  }
 }
 
 .eyebrow {
