@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import prisma from "@/lib/prisma";
+import { createSnapTransaction } from "@/lib/midtrans";
 
 const bookingSchema = z.object({
   customerName: z.string().min(2, "Nama lengkap minimal 2 karakter"),
@@ -205,5 +206,65 @@ export async function createBooking(input: CreateBookingInput) {
       success: false,
       errorMsg: error.message || "Gagal memproses pemesanan. Silakan coba lagi.",
     };
+  }
+}
+
+export async function getSnapTokenForBooking(referenceCode: string) {
+  try {
+    const booking = await prisma.booking.findUnique({
+      where: { referenceCode },
+      include: { items: true, payments: true },
+    });
+
+    if (!booking) {
+      return { success: false, errorMsg: "Pemesanan tidak ditemukan." };
+    }
+
+    if (booking.status === "PAID" || booking.status === "COMPLETED") {
+      return { success: false, errorMsg: "Pemesanan ini sudah dibayar." };
+    }
+
+    // Call Midtrans API to get Snap Token
+    const snapResult = await createSnapTransaction({
+      orderId: booking.referenceCode,
+      grossAmount: booking.totalPrice,
+      customerDetails: {
+        first_name: booking.customerName,
+        phone: booking.whatsappNumber,
+      },
+      itemDetails: booking.items.map((i) => ({
+        id: i.id,
+        price: i.unitPrice,
+        quantity: i.quantity,
+        name: i.itemName,
+      })),
+    });
+
+    // Save or update Payment record
+    const existingPayment = booking.payments[0];
+    if (existingPayment) {
+      await prisma.payment.update({
+        where: { id: existingPayment.id },
+        data: {
+          providerOrderId: booking.referenceCode,
+          status: "PENDING",
+          rawPayload: { snapToken: snapResult.token, redirectUrl: snapResult.redirectUrl },
+        },
+      });
+    } else {
+      await prisma.payment.create({
+        data: {
+          bookingId: booking.id,
+          provider: "midtrans",
+          providerOrderId: booking.referenceCode,
+          status: "PENDING",
+          rawPayload: { snapToken: snapResult.token, redirectUrl: snapResult.redirectUrl },
+        },
+      });
+    }
+
+    return { success: true, snapToken: snapResult.token };
+  } catch (error: any) {
+    return { success: false, errorMsg: error.message || "Gagal memuat gateway pembayaran." };
   }
 }
