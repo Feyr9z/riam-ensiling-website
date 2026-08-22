@@ -1,5 +1,6 @@
 import type { Ticket, Gazebo } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import PageHeader from "@/components/layout/PageHeader/PageHeader";
 import SectionHeader from "@/components/ui/SectionHeader/SectionHeader";
 import StatusBadge from "@/components/ui/StatusBadge/StatusBadge";
 import Button from "@/components/ui/Button/Button";
@@ -35,15 +36,11 @@ export default async function TiketGazeboPage() {
 
   return (
     <>
-      <header className={styles.header}>
-        <div className="container">
-          <span className={styles.eyebrow}>Tarif & Layanan Reservasi</span>
-          <h1 className={styles.title}>Tiket Masuk & Sewa Gazebo</h1>
-          <p className={styles.subtitle}>
-            Informasi lengkap daftar harga tiket masuk dan pilihan gazebo sejuk di tepi sungai Riam Ensiling untuk momen bersantai Anda.
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Tarif & Layanan Reservasi"
+        title="Tiket Masuk & Sewa Gazebo"
+        subtitle="Informasi lengkap daftar harga tiket masuk dan pilihan gazebo sejuk di tepi sungai Riam Ensiling untuk momen bersantai Anda."
+      />
 
       {/* 1. Section Tiket Masuk */}
       <section className={styles.section}>

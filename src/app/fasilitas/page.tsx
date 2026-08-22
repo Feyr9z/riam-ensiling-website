@@ -1,5 +1,6 @@
 import type { Facility } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import PageHeader from "@/components/layout/PageHeader/PageHeader";
 import Card from "@/components/ui/Card/Card";
 import StatusBadge from "@/components/ui/StatusBadge/StatusBadge";
 import Button from "@/components/ui/Button/Button";
@@ -25,15 +26,11 @@ export default async function FasilitasPage() {
 
   return (
     <>
-      <header className={styles.header}>
-        <div className="container">
-          <span className={styles.eyebrow}>Kenyamanan Pengunjung</span>
-          <h1 className={styles.title}>Fasilitas Usaha Wisata</h1>
-          <p className={styles.subtitle}>
-            Berbagai sarana prasarana telah disiapkan untuk memberikan kenyamanan dan keamanan terbaik bagi seluruh wisatawan.
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Kenyamanan Pengunjung"
+        title="Fasilitas Usaha Wisata"
+        subtitle="Berbagai sarana prasarana telah disiapkan untuk memberikan kenyamanan dan keamanan terbaik bagi seluruh wisatawan."
+      />
 
       <section className={styles.section}>
         <div className="container">

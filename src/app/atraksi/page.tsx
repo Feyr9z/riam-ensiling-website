@@ -1,5 +1,6 @@
 import type { Attraction } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import PageHeader from "@/components/layout/PageHeader/PageHeader";
 import Card from "@/components/ui/Card/Card";
 import StatusBadge from "@/components/ui/StatusBadge/StatusBadge";
 import Button from "@/components/ui/Button/Button";
@@ -25,15 +26,11 @@ export default async function AtraksiWisataPage() {
 
   return (
     <>
-      <header className={styles.header}>
-        <div className="container">
-          <span className={styles.eyebrow}>Pesona Keindahan Alam</span>
-          <h1 className={styles.title}>Atraksi Wisata Riam Ensiling</h1>
-          <p className={styles.subtitle}>
-            Jelajahi berbagai spot daya tarik wisata alam unggulan, dari gemuruh air terjun alami hingga area santai tepi sungai.
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Pesona Keindahan Alam"
+        title="Atraksi Wisata Riam Ensiling"
+        subtitle="Jelajahi berbagai spot daya tarik wisata alam unggulan, dari gemuruh air terjun alami hingga area santai tepi sungai."
+      />
 
       <section className={styles.section}>
         <div className="container">
