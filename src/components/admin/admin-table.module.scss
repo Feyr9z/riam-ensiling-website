@@ -4,21 +4,30 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: $space-6;
+  margin-bottom: $space-8;
   flex-wrap: wrap;
   gap: $space-4;
+
+  h1 {
+    font-family: $font-heading;
+    font-size: $text-2xl;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
 }
 
 .tableCard {
   background-color: $color-surface;
-  border-radius: $radius-xl;
+  border-radius: $radius-2xl;
   border: 1px solid $color-border;
   box-shadow: $shadow-sm;
   overflow: hidden;
+  margin-bottom: $space-8;
 }
 
 .tableWrapper {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .table {
@@ -34,9 +43,19 @@
     font-size: $text-xs;
     text-transform: uppercase;
     letter-spacing: $tracking-wide;
-    padding: $space-3 $space-4;
+    padding: $space-4;
     border-bottom: 1px solid $color-border;
     white-space: nowrap;
+
+    &:first-child {
+      padding-left: $space-6;
+      text-align: center;
+      width: 70px;
+    }
+
+    &:last-child {
+      padding-right: $space-6;
+    }
   }
 
   td {
@@ -45,7 +64,15 @@
     color: $color-text-primary;
     vertical-align: middle;
 
+    &:first-child {
+      padding-left: $space-6;
+      text-align: center;
+      font-weight: $weight-semibold;
+      color: $color-text-secondary;
+    }
+
     &:last-child {
+      padding-right: $space-6;
       white-space: nowrap;
     }
   }
@@ -67,11 +94,25 @@
 
 .formCard {
   background-color: $color-surface;
-  border-radius: $radius-xl;
+  border-radius: $radius-2xl;
   border: 1px solid $color-border;
   box-shadow: $shadow-sm;
   padding: $space-6;
+  margin-bottom: $space-8;
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: $space-6;
+
+  h2 {
+    font-family: $font-heading;
+    font-size: $text-lg;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
 }
 
 .formGrid {
@@ -106,7 +147,7 @@
   color: $color-text-primary;
   background-color: $color-surface;
   border: 1px solid $color-border-strong;
-  border-radius: $radius-md;
+  border-radius: $radius-lg;
   @include transition(border-color box-shadow);
 
   &:focus {
@@ -129,4 +170,120 @@
   p {
     margin-top: $space-2;
   }
+}
+
+// Modal styling for admin detail views
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba($color-black, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-modal;
+  padding: $space-4;
+}
+
+.modalCard {
+  background-color: $color-surface;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-xl;
+  width: 100%;
+  max-width: 520px;
+  padding: $space-6;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: $space-4;
+  border-bottom: 1px solid $color-border;
+  margin-bottom: $space-4;
+
+  h3 {
+    font-family: $font-heading;
+    font-size: $text-lg;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
+}
+
+.modalCloseBtn {
+  background: none;
+  border: none;
+  color: $color-text-secondary;
+  cursor: pointer;
+  padding: $space-1;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include transition(color background-color);
+
+  &:hover {
+    color: $color-text-primary;
+    background-color: $color-surface-alt;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// ---- Admin Gallery Cards Grid (Edge-to-Edge Top Image) ----
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: $space-6;
+  margin-bottom: $space-8;
+}
+
+.galleryCard {
+  background-color: $color-surface;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  @include transition(transform box-shadow border-color);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+    border-color: $color-primary-300;
+  }
+}
+
+.galleryImgWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: $color-surface-alt;
+  overflow: hidden;
+  margin: 0;
+}
+
+.galleryCardBody {
+  padding: $space-4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $color-white;
+  border-top: 1px solid $color-border;
+}
+
+.badgeNumber {
+  display: inline-flex;
+  align-items: center;
+  font-size: $text-xs;
+  font-weight: $weight-bold;
+  color: $color-primary-700;
+  background-color: $color-primary-50;
+  padding: $space-1 $space-3;
+  border-radius: $radius-full;
 }

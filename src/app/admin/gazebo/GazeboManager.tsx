@@ -211,7 +211,7 @@ export default function GazeboManager({ initialItems }: { initialItems: Gazebo[]
           <table className={styles.table}>
             <thead>
               <tr>
-                <th style={{ width: "60px" }}>No</th>
+                <th>No</th>
                 <th>Kode</th>
                 <th>Nama Gazebo</th>
                 <th>Kapasitas</th>

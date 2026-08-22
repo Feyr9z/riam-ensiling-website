@@ -7,6 +7,45 @@ import styles from "./admin-home.module.scss";
 export default async function AdminDashboardPage() {
   const session = await getAdminSession();
 
+  const modules = [
+    {
+      title: "Atraksi Wisata",
+      description: "Kelola daftar objek dan daya tarik wisata yang ditampilkan kepada pengunjung.",
+      href: "/admin/atraksi",
+      btnText: "Kelola Atraksi",
+    },
+    {
+      title: "Fasilitas",
+      description: "Kelola sarana dan fasilitas penunjang area wisata Riam Ensiling.",
+      href: "/admin/fasilitas",
+      btnText: "Kelola Fasilitas",
+    },
+    {
+      title: "Galeri Foto",
+      description: "Kelola dokumentasi foto keindahan alam Riam Ensiling.",
+      href: "/admin/galeri",
+      btnText: "Kelola Galeri",
+    },
+    {
+      title: "Tiket & Harga",
+      description: "Atur jenis tiket masuk dan penetapan harga operasional.",
+      href: "/admin/tiket",
+      btnText: "Kelola Tiket",
+    },
+    {
+      title: "Sewa Gazebo",
+      description: "Kelola ketersediaan gazebo dan tarif sewa per hari.",
+      href: "/admin/gazebo",
+      btnText: "Kelola Gazebo",
+    },
+    {
+      title: "Daftar Pemesanan",
+      description: "Pantau status transaksi pemesanan tiket dan gazebo wisatawan.",
+      href: "/admin/pemesanan",
+      btnText: "Kelola Pemesanan",
+    },
+  ];
+
   return (
     <div className={styles.container}>
       <SectionHeader
@@ -17,60 +56,18 @@ export default async function AdminDashboardPage() {
       />
 
       <div className={styles.grid}>
-        <Card
-          title="Atraksi Wisata"
-          description="Kelola daftar objek dan daya tarik wisata yang ditampilkan kepada pengunjung."
-          footer={
-            <Button as="link" href="/admin/atraksi" variant="primary" size="sm">
-              Kelola Atraksi
-            </Button>
-          }
-        />
-        <Card
-          title="Fasilitas"
-          description="Kelola sarana dan fasilitas penunjang area wisata."
-          footer={
-            <Button as="link" href="/admin/fasilitas" variant="primary" size="sm">
-              Kelola Fasilitas
-            </Button>
-          }
-        />
-        <Card
-          title="Galeri Foto"
-          description="Kelola dokumentasi foto keindahan alam Riam Ensiling."
-          footer={
-            <Button as="link" href="/admin/galeri" variant="primary" size="sm">
-              Kelola Galeri
-            </Button>
-          }
-        />
-        <Card
-          title="Tiket & Harga"
-          description="Atur jenis tiket masuk dan penetapan harga operasional."
-          footer={
-            <Button as="link" href="/admin/tiket" variant="primary" size="sm">
-              Kelola Tiket
-            </Button>
-          }
-        />
-        <Card
-          title="Sewa Gazebo"
-          description="Kelola ketersediaan gazebo dan tarif sewa per hari."
-          footer={
-            <Button as="link" href="/admin/gazebo" variant="primary" size="sm">
-              Kelola Gazebo
-            </Button>
-          }
-        />
-        <Card
-          title="Daftar Pemesanan"
-          description="Pantau status transaksi pemesanan tiket dan gazebo wisatawan."
-          footer={
-            <Button as="link" href="/admin/pemesanan" variant="primary" size="sm">
-              Kelola Pemesanan
-            </Button>
-          }
-        />
+        {modules.map((mod) => (
+          <Card
+            key={mod.href}
+            title={mod.title}
+            description={mod.description}
+            footer={
+              <Button as="link" href={mod.href} variant="primary" size="sm">
+                {mod.btnText}
+              </Button>
+            }
+          />
+        ))}
       </div>
     </div>
   );

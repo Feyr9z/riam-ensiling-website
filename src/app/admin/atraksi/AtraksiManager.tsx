@@ -177,7 +177,7 @@ export default function AtraksiManager({ initialItems }: { initialItems: Attract
           <table className={styles.table}>
             <thead>
               <tr>
-                <th style={{ width: "60px" }}>No</th>
+                <th>No</th>
                 <th>Nama Atraksi Wisata</th>
                 <th>Deskripsi</th>
                 <th>Status</th>
