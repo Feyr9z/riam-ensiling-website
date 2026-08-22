@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { getAdminSession } from "@/lib/auth";
 import Button from "@/components/ui/Button/Button";
+import AdminNav from "@/components/admin/AdminNav/AdminNav";
 import { logoutAction } from "./login/actions";
 import styles from "./admin-layout.module.scss";
 
@@ -12,7 +13,6 @@ export default async function AdminLayout({
 }) {
   const session = await getAdminSession();
 
-  // Login page has its own full-page wrapper
   if (!session.isLoggedIn) {
     return <>{children}</>;
   }
@@ -34,6 +34,7 @@ export default async function AdminLayout({
           </div>
         </div>
       </header>
+      <AdminNav />
       <main className={styles.main}>{children}</main>
     </div>
   );
