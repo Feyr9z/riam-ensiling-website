@@ -17,6 +17,11 @@
   white-space: nowrap;
   @include transition(all);
 
+  @include respond-below(sm) {
+    white-space: normal;
+    text-align: center;
+  }
+
   // Disable default focus outline — we apply our own
   &:focus {
     outline: none;
@@ -37,16 +42,19 @@
   &--sm {
     padding: $space-2 $space-4;
     font-size: $text-xs;
+    min-height: 38px;
   }
 
   &--md {
     padding: $space-3 $space-6;
     font-size: $text-sm;
+    min-height: 44px;
   }
 
   &--lg {
     padding: $space-4 $space-8;
     font-size: $text-base;
+    min-height: 48px;
   }
 
   // ---- Color variants ----

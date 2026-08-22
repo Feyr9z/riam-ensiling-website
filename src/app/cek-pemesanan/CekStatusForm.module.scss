@@ -93,9 +93,16 @@
   }
 }
 
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .itemTable {
   width: 100%;
   border-collapse: collapse;
+  min-width: 480px;
 
   th, td {
     padding: $space-3 $space-4;

@@ -187,28 +187,30 @@ export default function CekStatusForm() {
 
           <div className={styles.detailSection}>
             <h3>Rincian Tiket & Gazebo Yang Dipesan:</h3>
-            <table className={styles.itemTable}>
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Jumlah</th>
-                  <th>Harga Satuan</th>
-                  <th>Subtotal</th>
-                </tr>
-              </thead>
-              <tbody>
-                {booking.items.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <strong>{item.itemName}</strong>
-                    </td>
-                    <td>{item.quantity}x</td>
-                    <td>{formatRupiah(item.unitPrice)}</td>
-                    <td>{formatRupiah(item.subtotal)}</td>
+            <div className={styles.tableWrapper}>
+              <table className={styles.itemTable}>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Jumlah</th>
+                    <th>Harga Satuan</th>
+                    <th>Subtotal</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {booking.items.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        <strong>{item.itemName}</strong>
+                      </td>
+                      <td>{item.quantity}x</td>
+                      <td>{formatRupiah(item.unitPrice)}</td>
+                      <td>{formatRupiah(item.subtotal)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
             <div className={styles.grandTotal}>
               <span>Total Pembayaran:</span>
