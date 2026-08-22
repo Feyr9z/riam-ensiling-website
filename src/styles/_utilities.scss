@@ -1,0 +1,53 @@
+// ============================================================
+// _utilities.scss — Riam Ensiling Design System
+//
+// Minimal global utility classes.
+// These are intentionally kept sparse — prefer SCSS Modules
+// for component-level styling. Only include utilities that
+// are genuinely needed across many contexts.
+// ============================================================
+
+@use './variables' as *;
+@use './mixins' as *;
+
+// ---- Layout ----
+
+.container {
+  @include container;
+}
+
+// ---- Visually hidden (accessibility) ----
+.sr-only {
+  @include visually-hidden;
+}
+
+// ---- Section wrapper ----
+.section {
+  @include section-padding;
+}
+
+// ---- Text alignment ----
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+// ---- Display ----
+.hidden { display: none !important; }
+
+// ---- Skeleton / loading placeholder ----
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    $color-neutral-100 25%,
+    $color-neutral-200 50%,
+    $color-neutral-100 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: $radius-md;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

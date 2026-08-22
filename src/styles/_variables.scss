@@ -1,0 +1,179 @@
+// ============================================================
+// _variables.scss — Riam Ensiling Design System
+//
+// IMPORTANT: This file must produce ZERO CSS output.
+// It contains only SCSS $variables and forwards them via @use.
+// It is injected into every SCSS Module automatically via
+// next.config.ts sassOptions.additionalData.
+// ============================================================
+
+// ---- Color Palette ----
+
+// Primary: Forest Green — nature, trust, freshness
+$color-primary-50:  #EDF7F1;
+$color-primary-100: #C9E9D8;
+$color-primary-200: #97D5B4;
+$color-primary-300: #62BC8E;
+$color-primary-400: #3DA272;
+$color-primary-500: #236B4E; // main brand green
+$color-primary-600: #1A523C;
+$color-primary-700: #133D2C;
+$color-primary-800: #0D2A1E;
+$color-primary-900: #071910;
+
+$color-primary:       $color-primary-500;
+$color-primary-light: $color-primary-300;
+$color-primary-dark:  $color-primary-700;
+$color-primary-hover: $color-primary-600;
+
+// Accent: Golden Honey — warmth, energy, CTAs
+$color-accent-300: #F5CC72;
+$color-accent-400: #EEAA3A;
+$color-accent-500: #E8A020; // main accent
+$color-accent-600: #C47E0E;
+$color-accent-700: #9A5F08;
+
+$color-accent:       $color-accent-500;
+$color-accent-light: $color-accent-300;
+$color-accent-dark:  $color-accent-600;
+$color-accent-hover: $color-accent-600;
+
+// Neutral: Warm-tinted grays (not cold blue-gray)
+$color-neutral-50:  #FAFAF8;
+$color-neutral-100: #F4F1EB;
+$color-neutral-200: #E8E2D9;
+$color-neutral-300: #CFC8BB;
+$color-neutral-400: #A89E90;
+$color-neutral-500: #7D7365;
+$color-neutral-600: #5C5349;
+$color-neutral-700: #3D352C;
+$color-neutral-800: #2A2219;
+$color-neutral-900: #1C1916;
+
+// Semantic
+$color-success:       #1E7E41;
+$color-success-light: #D4EDDA;
+$color-warning:       #B46000;
+$color-warning-light: #FFF3CD;
+$color-error:         #C0392B;
+$color-error-light:   #FDECEA;
+$color-info:          #1565A8;
+$color-info-light:    #DBEAFE;
+
+// Base
+$color-white: #FFFFFF;
+$color-black: #000000;
+
+// Semantic aliases
+$color-text-primary:    $color-neutral-900;
+$color-text-secondary:  $color-neutral-600;
+$color-text-muted:      $color-neutral-400;
+$color-text-on-primary: $color-white;
+$color-text-on-accent:  $color-neutral-900;
+$color-text-link:       $color-primary-500;
+$color-text-link-hover: $color-primary-600;
+
+$color-bg:          $color-neutral-50;
+$color-surface:     $color-white;
+$color-surface-alt: $color-neutral-100;
+$color-border:      $color-neutral-200;
+$color-border-strong: $color-neutral-300;
+$color-border-focus:  $color-primary-500;
+
+// ---- Typography ----
+
+// Font families (next/font sets these as CSS variables on <html>)
+$font-heading: var(--font-heading), 'Plus Jakarta Sans', system-ui, sans-serif;
+$font-body:    var(--font-body),    'Inter',             system-ui, sans-serif;
+$font-mono:    'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+
+// Type scale (Major Third — 1.25 ratio)
+$text-xs:   0.75rem;    // 12px
+$text-sm:   0.875rem;   // 14px
+$text-base: 1rem;       // 16px
+$text-lg:   1.125rem;   // 18px
+$text-xl:   1.25rem;    // 20px
+$text-2xl:  1.5rem;     // 24px
+$text-3xl:  1.875rem;   // 30px
+$text-4xl:  2.25rem;    // 36px
+$text-5xl:  3rem;       // 48px
+$text-6xl:  3.75rem;    // 60px
+
+// Font weights
+$weight-regular:  400;
+$weight-medium:   500;
+$weight-semibold: 600;
+$weight-bold:     700;
+
+// Line heights
+$leading-tight:   1.2;
+$leading-snug:    1.35;
+$leading-normal:  1.5;
+$leading-relaxed: 1.7;
+
+// Letter spacing
+$tracking-tight:   -0.02em;
+$tracking-normal:   0;
+$tracking-wide:     0.04em;
+$tracking-widest:   0.1em;
+
+// ---- Spacing (8px base) ----
+$space-0:  0;
+$space-1:  0.25rem;   // 4px
+$space-2:  0.5rem;    // 8px
+$space-3:  0.75rem;   // 12px
+$space-4:  1rem;      // 16px
+$space-5:  1.25rem;   // 20px
+$space-6:  1.5rem;    // 24px
+$space-8:  2rem;      // 32px
+$space-10: 2.5rem;    // 40px
+$space-12: 3rem;      // 48px
+$space-16: 4rem;      // 64px
+$space-20: 5rem;      // 80px
+$space-24: 6rem;      // 96px
+$space-32: 8rem;      // 128px
+$space-40: 10rem;     // 160px
+
+// ---- Layout ----
+$container-max:    1200px;
+$container-px:     1.5rem;
+$container-px-md:  2rem;
+$container-px-lg:  2.5rem;
+
+// ---- Border Radius ----
+$radius-sm:   0.25rem;    // 4px
+$radius-md:   0.5rem;     // 8px
+$radius-lg:   0.75rem;    // 12px
+$radius-xl:   1rem;       // 16px
+$radius-2xl:  1.5rem;     // 24px
+$radius-full: 9999px;
+
+// ---- Shadows ----
+$shadow-xs:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+$shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+$shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+$shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+$shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+$shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+
+// ---- Transitions ----
+$transition-fast:   150ms ease;
+$transition-normal: 250ms ease;
+$transition-slow:   400ms ease;
+
+// ---- Z-index ----
+$z-below:    -1;
+$z-base:      0;
+$z-raised:    10;
+$z-dropdown: 100;
+$z-sticky:   200;
+$z-overlay:  300;
+$z-modal:    400;
+$z-toast:    500;
+
+// ---- Breakpoints ----
+$bp-sm:  480px;
+$bp-md:  768px;
+$bp-lg:  1024px;
+$bp-xl:  1280px;
+$bp-2xl: 1536px;

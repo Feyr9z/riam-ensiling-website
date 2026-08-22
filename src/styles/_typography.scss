@@ -1,0 +1,135 @@
+// ============================================================
+// _typography.scss — Riam Ensiling Design System
+//
+// Base typographic rules applied globally.
+// Sets up the heading scale, body text, links, etc.
+// ============================================================
+
+@use './variables' as *;
+@use './mixins' as *;
+
+// ---- Base body ----
+body {
+  font-family: $font-body;
+  font-size: $text-base;
+  font-weight: $weight-regular;
+  line-height: $leading-normal;
+  color: $color-text-primary;
+  background-color: $color-bg;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ---- Headings ----
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-heading;
+  font-weight: $weight-bold;
+  line-height: $leading-tight;
+  letter-spacing: $tracking-tight;
+  color: $color-text-primary;
+}
+
+h1 { font-size: $text-4xl; }
+h2 { font-size: $text-3xl; }
+h3 { font-size: $text-2xl; }
+h4 { font-size: $text-xl; }
+h5 { font-size: $text-lg; }
+h6 { font-size: $text-base; }
+
+@include respond-to(md) {
+  h1 { font-size: $text-5xl; }
+  h2 { font-size: $text-4xl; }
+  h3 { font-size: $text-3xl; }
+  h4 { font-size: $text-2xl; }
+}
+
+@include respond-to(lg) {
+  h1 { font-size: $text-6xl; }
+}
+
+// ---- Paragraphs ----
+p {
+  line-height: $leading-relaxed;
+  color: $color-text-secondary;
+
+  & + p {
+    margin-top: $space-4;
+  }
+}
+
+// ---- Links ----
+a {
+  color: $color-text-link;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  @include transition(color);
+
+  &:hover {
+    color: $color-text-link-hover;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-radius: $radius-sm;
+    text-decoration: none;
+  }
+}
+
+// ---- Lists ----
+ul, ol {
+  padding-inline-start: $space-6;
+
+  li {
+    line-height: $leading-relaxed;
+
+    & + li {
+      margin-top: $space-1;
+    }
+  }
+}
+
+// ---- Strong / Em ----
+strong {
+  font-weight: $weight-semibold;
+  color: $color-text-primary;
+}
+
+em {
+  font-style: italic;
+}
+
+// ---- Small ----
+small {
+  font-size: $text-sm;
+}
+
+// ---- Code ----
+code, kbd, samp, pre {
+  font-family: $font-mono;
+  font-size: $text-sm;
+}
+
+code {
+  background-color: $color-surface-alt;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: 0.1em 0.4em;
+}
+
+// ---- Blockquote ----
+blockquote {
+  border-left: 4px solid $color-primary;
+  padding-left: $space-4;
+  margin-left: 0;
+  color: $color-text-secondary;
+  font-style: italic;
+}
+
+// ---- Horizontal rule ----
+// (styled in _reset.scss, inherits here)
+
+// ---- Selection ----
+::selection {
+  background-color: $color-primary-100;
+  color: $color-primary-800;
+}
