@@ -1,19 +1,73 @@
-import SectionHeader from "@/components/ui/SectionHeader/SectionHeader";
+import type { Attraction } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import Card from "@/components/ui/Card/Card";
+import StatusBadge from "@/components/ui/StatusBadge/StatusBadge";
+import Button from "@/components/ui/Button/Button";
+import styles from "./atraksi.module.scss";
 
 export const metadata = {
-  title: "Atraksi Wisata",
-  description: "Daftar objek dan daya tarik wisata alam di Riam Ensiling.",
+  title: "Atraksi Wisata Riam Ensiling",
+  description:
+    "Daftar objek wisata, pemandangan air terjun, spot foto, dan daya tarik wisata di Riam Ensiling Desa Lumut.",
 };
 
-export default function AtraksiWisataPage() {
+export default async function AtraksiWisataPage() {
+  let attractions: Attraction[] = [];
+
+  try {
+    attractions = await prisma.attraction.findMany({
+      where: { isPublished: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch (error) {
+    // Database connection fallback
+  }
+
   return (
-    <div className="container section">
-      <SectionHeader
-        eyebrow="Keindahan Alam"
-        title="Atraksi Wisata Riam Ensiling"
-        subtitle="Nikmati berbagai spot swafoto, aliran sungai jernih, dan area santai alam terbuka."
-        size="lg"
-      />
-    </div>
+    <>
+      <header className={styles.header}>
+        <div className="container">
+          <span className={styles.eyebrow}>Pesona Keindahan Alam</span>
+          <h1 className={styles.title}>Atraksi Wisata Riam Ensiling</h1>
+          <p className={styles.subtitle}>
+            Jelajahi berbagai spot daya tarik wisata alam unggulan, dari gemuruh air terjun alami hingga area santai tepi sungai.
+          </p>
+        </div>
+      </header>
+
+      <section className={styles.section}>
+        <div className="container">
+          {attractions.length === 0 ? (
+            <div className={styles.emptyState}>
+              <h3>Belum Ada Atraksi Wisata Dipublikasikan</h3>
+              <p>Pengelola belum menambahkan daftar atraksi wisata. Silakan kembali lagi nanti.</p>
+            </div>
+          ) : (
+            <div className={styles.grid}>
+              {attractions.map((item) => (
+                <Card
+                  key={item.id}
+                  image={{
+                    src: item.imageUrl || "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=800&q=80",
+                    alt: item.name,
+                  }}
+                  meta={<StatusBadge status="paid" label="Atraksi Wisata" />}
+                  title={item.name}
+                  description={item.description}
+                />
+              ))}
+            </div>
+          )}
+
+          <div className={styles.ctaBox}>
+            <h2>Tertarik Mengunjungi Riam Ensiling?</h2>
+            <p>Pesan tiket masuk dan sewa gazebo sejuk di tepi sungai secara online sekarang juga.</p>
+            <Button as="link" href="/pemesanan" variant="accent" size="lg">
+              Pesan Tiket & Gazebo
+            </Button>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
