@@ -26,6 +26,11 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // Do not render public navbar on admin pages
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   // Detect scroll for shadow effect
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 8);

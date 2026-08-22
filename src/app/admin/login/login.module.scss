@@ -1,0 +1,99 @@
+@use 'sass:color';
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $color-neutral-100 0%, $color-primary-50 100%);
+  padding: $space-4;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background-color: $color-surface;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-xl;
+  padding: $space-8;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: $space-8;
+}
+
+.logo {
+  font-family: $font-heading;
+  font-size: $text-2xl;
+  font-weight: $weight-bold;
+  color: $color-primary;
+  letter-spacing: $tracking-tight;
+  margin-bottom: $space-2;
+}
+
+.subtitle {
+  font-size: $text-sm;
+  color: $color-text-secondary;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.label {
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  color: $color-text-primary;
+}
+
+.input {
+  width: 100%;
+  padding: $space-3 $space-4;
+  font-size: $text-base;
+  font-family: $font-body;
+  color: $color-text-primary;
+  background-color: $color-surface;
+  border: 1px solid $color-border-strong;
+  border-radius: $radius-lg;
+  @include transition(border-color box-shadow);
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+  }
+
+  &--error {
+    border-color: $color-error;
+
+    &:focus {
+      border-color: $color-error;
+      box-shadow: 0 0 0 3px rgba($color-error, 0.15);
+    }
+  }
+}
+
+.errorText {
+  font-size: $text-xs;
+  color: $color-error;
+}
+
+.alertError {
+  background-color: $color-error-light;
+  color: $color-error;
+  border: 1px solid color.adjust($color-error, $lightness: 25%);
+  padding: $space-3 $space-4;
+  border-radius: $radius-md;
+  font-size: $text-sm;
+  text-align: center;
+}
