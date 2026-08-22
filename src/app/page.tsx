@@ -1,4 +1,4 @@
-import type { Attraction, Facility, GalleryItem as PrismaGalleryItem, Ticket, Gazebo } from "@prisma/client";
+import { Attraction, Facility, GalleryItem as PrismaGalleryItem, Ticket, Gazebo } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import Hero from "@/components/ui/Hero/Hero";
 import SectionHeader from "@/components/ui/SectionHeader/SectionHeader";
