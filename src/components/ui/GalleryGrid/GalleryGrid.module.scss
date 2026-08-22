@@ -1,0 +1,65 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-2;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-3;
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.item {
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-lg;
+  background-color: $color-surface-alt;
+  cursor: pointer;
+  aspect-ratio: 1;
+
+  &:first-child,
+  &:nth-child(5) {
+    // Featured items span 2 columns
+    grid-column: span 2;
+    aspect-ratio: 16 / 9;
+  }
+
+  img {
+    @include img-cover;
+    @include transition(transform);
+  }
+
+  &:hover img {
+    transform: scale(1.06);
+  }
+
+  // Hover overlay
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba($color-primary-900, 0);
+    @include transition(background-color);
+  }
+
+  &:hover::after {
+    background-color: rgba($color-primary-900, 0.2);
+  }
+
+  &:focus-visible {
+    @include focus-ring($color-primary, 3px);
+  }
+}
+
+// Placeholder when image is loading
+.placeholder {
+  position: absolute;
+  inset: 0;
+  @include flex-center;
+  background: linear-gradient(135deg, $color-neutral-100, $color-neutral-200);
+  color: $color-neutral-300;
+}

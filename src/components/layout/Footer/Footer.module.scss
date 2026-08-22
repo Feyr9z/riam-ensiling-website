@@ -1,0 +1,165 @@
+.footer {
+  background-color: $color-primary-900;
+  color: $color-neutral-300;
+}
+
+// ---- Main content area ----
+.main {
+  @include container;
+  padding-block: $space-16 $space-12;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-10;
+
+  @include respond-to(md) {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: $space-8;
+  }
+}
+
+// ---- Brand column ----
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.logo {
+  font-family: $font-heading;
+  font-size: $text-2xl;
+  font-weight: $weight-bold;
+  color: $color-white;
+  letter-spacing: $tracking-tight;
+  text-decoration: none;
+  @include transition(color);
+
+  &:hover {
+    color: $color-primary-300;
+  }
+
+  &:focus-visible {
+    @include focus-ring($color-primary-300);
+    border-radius: $radius-sm;
+  }
+}
+
+.tagline {
+  font-size: $text-sm;
+  line-height: $leading-relaxed;
+  color: $color-neutral-400;
+  max-width: 280px;
+}
+
+.social {
+  display: flex;
+  gap: $space-3;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-md;
+  background-color: rgba($color-white, 0.08);
+  color: $color-neutral-400;
+  @include transition(background-color color);
+  text-decoration: none;
+
+  &:hover {
+    background-color: rgba($color-white, 0.15);
+    color: $color-white;
+  }
+
+  &:focus-visible {
+    @include focus-ring($color-primary-300);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// ---- Nav columns ----
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.columnTitle {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  letter-spacing: $tracking-widest;
+  text-transform: uppercase;
+  color: $color-neutral-500;
+}
+
+.columnLinks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.link {
+  font-size: $text-sm;
+  color: $color-neutral-400;
+  text-decoration: none;
+  @include transition(color);
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+
+  &:hover {
+    color: $color-white;
+  }
+
+  &:focus-visible {
+    @include focus-ring($color-primary-300);
+    border-radius: $radius-sm;
+  }
+}
+
+// Contact info
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-2;
+  font-size: $text-sm;
+  color: $color-neutral-400;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: $color-primary-400;
+  }
+}
+
+// ---- Bottom bar ----
+.bottom {
+  border-top: 1px solid rgba($color-white, 0.08);
+}
+
+.bottomInner {
+  @include container;
+  @include flex-between;
+  padding-block: $space-5;
+  flex-wrap: wrap;
+  gap: $space-4;
+}
+
+.copyright {
+  font-size: $text-xs;
+  color: $color-neutral-600;
+}
+
+.disclaimer {
+  font-size: $text-xs;
+  color: $color-neutral-700;
+  font-style: italic;
+}

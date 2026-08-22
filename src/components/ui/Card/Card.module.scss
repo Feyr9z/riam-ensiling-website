@@ -1,0 +1,85 @@
+.card {
+  @include card-base;
+  overflow: hidden;
+  @include transition(box-shadow transform);
+
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
+// ---- Slots ----
+
+.image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: $color-surface-alt;
+
+  img {
+    @include img-cover;
+    @include transition(transform);
+  }
+}
+
+.card:hover .image img {
+  transform: scale(1.04);
+}
+
+.body {
+  padding: $space-5 $space-6;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $text-xs;
+  color: $color-text-muted;
+  margin-bottom: $space-2;
+}
+
+.title {
+  font-family: $font-heading;
+  font-size: $text-xl;
+  font-weight: $weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $space-2;
+  @include line-clamp(2);
+}
+
+.description {
+  font-size: $text-sm;
+  color: $color-text-secondary;
+  line-height: $leading-relaxed;
+  @include line-clamp(3);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-4 $space-6;
+  border-top: 1px solid $color-border;
+  background-color: $color-surface-alt;
+}
+
+// ---- Modifier: no-hover (static card) ----
+.card--static {
+  &:hover {
+    box-shadow: $shadow-sm;
+    transform: none;
+  }
+}
+
+// ---- Modifier: flat (no shadow, just border) ----
+.card--flat {
+  box-shadow: none;
+
+  &:hover {
+    box-shadow: $shadow-sm;
+    transform: translateY(-1px);
+  }
+}
