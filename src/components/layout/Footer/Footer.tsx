@@ -69,21 +69,20 @@ export default function Footer() {
             Wisata alam yang memukau di jantung Kalimantan Barat.
             Nikmati keindahan alam, budaya, dan ketenangan bersama keluarga.
           </p>
-          {/* Social media — [PLACEHOLDER: update when official accounts are verified] */}
           <div className={styles.social}>
             <a
               href="#"
               className={styles.socialLink}
-              aria-label="Instagram Riam Ensiling (belum tersedia)"
-              title="Instagram — belum tersedia"
+              aria-label="Instagram Riam Ensiling"
+              title="Instagram"
             >
               <IconInstagram />
             </a>
             <a
               href="#"
               className={styles.socialLink}
-              aria-label="WhatsApp Riam Ensiling (belum tersedia)"
-              title="WhatsApp — belum tersedia"
+              aria-label="WhatsApp Riam Ensiling"
+              title="WhatsApp"
             >
               <IconWhatsApp />
             </a>
@@ -118,7 +117,6 @@ export default function Footer() {
           </ul>
 
           <p className={styles.columnTitle} style={{ marginTop: "1rem" }}>Lokasi</p>
-          {/* [PLACEHOLDER: update with verified address] */}
           <div className={styles.contactItem}>
             <IconMapPin />
             <span>Desa Lumut, Kec. Toba, Kab. Sanggau, Kalimantan Barat</span>

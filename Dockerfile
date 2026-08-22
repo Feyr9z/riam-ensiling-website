@@ -24,7 +24,6 @@ RUN npm ci
 COPY . .
 
 # Generate Prisma client before build
-# (prisma is added in Phase 4; this RUN is a no-op until then)
 RUN [ -f "prisma/schema.prisma" ] && npx prisma generate || true
 
 ENV NEXT_TELEMETRY_DISABLED=1

@@ -8,8 +8,8 @@
 # Usage:
 #   1. Copy .env.example → .env and fill in values
 #   2. docker compose up -d
-#   3. docker compose exec app npm run db:migrate   (after Phase 4)
-#   4. docker compose exec app npm run db:seed      (after Phase 4)
+#   3. docker compose exec app npm run db:migrate
+#   4. docker compose exec app npm run db:seed
 # ============================================================
 
 services:

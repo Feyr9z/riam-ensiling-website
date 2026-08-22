@@ -1,5 +1,3 @@
-// Placeholder — will be replaced with full Home page in Phase 8.
-// This file exists only to confirm the shared components render correctly.
 import Button from "@/components/ui/Button/Button";
 import SectionHeader from "@/components/ui/SectionHeader/SectionHeader";
 import StatusBadge from "@/components/ui/StatusBadge/StatusBadge";

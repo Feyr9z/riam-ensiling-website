@@ -1,32 +1,8 @@
 // ============================================================
 // globals.scss — Riam Ensiling Design System Entry Point
-//
-// Loaded ONCE via layout.tsx.
-//
-// Each partial manages its own @use statements internally —
-// SCSS @use is module-scoped and variables do NOT automatically
-// flow from a parent's scope into @use'd children.
-//
-// Import order:
-//   1. tokens  (:root CSS custom properties)
-//   2. reset   (base element resets)
-//   3. typography (base typographic rules)
-//   4. utilities (minimal global utility classes)
-//
-// NOTE: _variables.scss and _mixins.scss are NOT @use'd here.
-// Each partial that needs them imports them directly.
-// They are also injected into component SCSS modules via
-// next.config.ts sassOptions.additionalData.
 // ============================================================
 
-// 1 — CSS custom properties
 @use './tokens';
-
-// 2 — Reset
 @use './reset';
-
-// 3 — Typography
 @use './typography';
-
-// 4 — Utilities
 @use './utilities';
