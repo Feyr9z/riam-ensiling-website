@@ -1,0 +1,93 @@
+@use 'sass:color';
+
+.header {
+  background: linear-gradient(135deg, $color-primary-dark 0%, $color-primary 100%);
+  color: $color-white;
+  padding: $space-16 0 $space-12 0;
+  text-align: center;
+
+  .eyebrow {
+    display: inline-block;
+    font-size: $text-xs;
+    font-weight: $weight-bold;
+    letter-spacing: $tracking-wide;
+    text-transform: uppercase;
+    color: $color-accent-light;
+    margin-bottom: $space-2;
+  }
+
+  .title {
+    font-family: $font-heading;
+    font-size: $text-3xl;
+    font-weight: $weight-bold;
+    color: $color-white;
+    margin-bottom: $space-4;
+
+    @include respond-to(md) {
+      font-size: $text-4xl;
+    }
+  }
+
+  .subtitle {
+    font-size: $text-base;
+    color: rgba($color-white, 0.9);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: $leading-relaxed;
+
+    @include respond-to(md) {
+      font-size: $text-lg;
+    }
+  }
+}
+
+.section {
+  padding: $space-12 0;
+
+  @include respond-to(md) {
+    padding: $space-16 0;
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: $space-16 $space-6;
+  background-color: $color-surface-alt;
+  border-radius: $radius-2xl;
+  border: 1px dashed $color-border;
+  color: $color-text-secondary;
+
+  h3 {
+    font-size: $text-xl;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $space-2;
+  }
+
+  p {
+    font-size: $text-sm;
+  }
+}
+
+.ctaBox {
+  background: linear-gradient(135deg, $color-primary-dark 0%, $color-primary 100%);
+  color: $color-white;
+  padding: $space-12 $space-6;
+  border-radius: $radius-2xl;
+  text-align: center;
+  margin-top: $space-12;
+
+  h2 {
+    font-family: $font-heading;
+    font-size: $text-2xl;
+    color: $color-white;
+    margin-bottom: $space-3;
+  }
+
+  p {
+    font-size: $text-base;
+    color: rgba($color-white, 0.9);
+    max-width: 540px;
+    margin: 0 auto $space-6 auto;
+  }
+}

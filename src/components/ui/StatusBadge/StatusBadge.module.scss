@@ -1,0 +1,65 @@
+@use 'sass:color';
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  letter-spacing: $tracking-wide;
+  text-transform: uppercase;
+  padding: $space-1 $space-3;
+  border-radius: $radius-full;
+  border: 1px solid transparent;
+  white-space: nowrap;
+
+  // Status: Pending (Menunggu pembayaran)
+  &--pending {
+    background-color: $color-warning-light;
+    color: $color-warning;
+    border-color: color.adjust($color-warning, $lightness: 30%);
+  }
+
+  // Status: Paid (Sudah dibayar)
+  &--paid {
+    background-color: $color-success-light;
+    color: $color-success;
+    border-color: color.adjust($color-success, $lightness: 35%);
+  }
+
+  // Status: Cancelled (Dibatalkan)
+  &--cancelled {
+    background-color: $color-error-light;
+    color: $color-error;
+    border-color: color.adjust($color-error, $lightness: 25%);
+  }
+
+  // Status: Expired (Kedaluwarsa)
+  &--expired {
+    background-color: $color-neutral-100;
+    color: $color-neutral-500;
+    border-color: $color-neutral-300;
+  }
+
+  // Status: Completed (Selesai)
+  &--completed {
+    background-color: $color-primary-50;
+    color: $color-primary-600;
+    border-color: $color-primary-200;
+  }
+
+  // Generic info / neutral
+  &--info {
+    background-color: $color-info-light;
+    color: $color-info;
+    border-color: color.adjust($color-info, $lightness: 35%);
+  }
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: $radius-full;
+  background-color: currentColor;
+  flex-shrink: 0;
+}

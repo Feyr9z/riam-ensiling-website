@@ -1,0 +1,289 @@
+@use 'sass:color';
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-8;
+  flex-wrap: wrap;
+  gap: $space-4;
+
+  h1 {
+    font-family: $font-heading;
+    font-size: $text-2xl;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
+}
+
+.tableCard {
+  background-color: $color-surface;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  margin-bottom: $space-8;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: $text-sm;
+
+  th {
+    background-color: $color-surface-alt;
+    color: $color-text-secondary;
+    font-weight: $weight-semibold;
+    font-size: $text-xs;
+    text-transform: uppercase;
+    letter-spacing: $tracking-wide;
+    padding: $space-4;
+    border-bottom: 1px solid $color-border;
+    white-space: nowrap;
+
+    &:first-child {
+      padding-left: $space-6;
+      text-align: center;
+      width: 70px;
+    }
+
+    &:last-child {
+      padding-right: $space-6;
+    }
+  }
+
+  td {
+    padding: $space-4;
+    border-bottom: 1px solid $color-border;
+    color: $color-text-primary;
+    vertical-align: middle;
+
+    &:first-child {
+      padding-left: $space-6;
+      text-align: center;
+      font-weight: $weight-semibold;
+      color: $color-text-secondary;
+    }
+
+    &:last-child {
+      padding-right: $space-6;
+      white-space: nowrap;
+    }
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover td {
+    background-color: rgba($color-primary-50, 0.4);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.formCard {
+  background-color: $color-surface;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  padding: $space-6;
+  margin-bottom: $space-8;
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-6;
+
+  h2 {
+    font-family: $font-heading;
+    font-size: $text-lg;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.label {
+  display: block;
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $space-2;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: $space-3 $space-4;
+  font-size: $text-sm;
+  font-family: $font-body;
+  color: $color-text-primary;
+  background-color: $color-surface;
+  border: 1px solid $color-border-strong;
+  border-radius: $radius-lg;
+  @include transition(border-color box-shadow);
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+  }
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.emptyState {
+  padding: $space-12 $space-4;
+  text-align: center;
+  color: $color-text-muted;
+
+  p {
+    margin-top: $space-2;
+  }
+}
+
+// Modal styling for admin detail views
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba($color-black, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-modal;
+  padding: $space-4;
+}
+
+.modalCard {
+  background-color: $color-surface;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-xl;
+  width: 100%;
+  max-width: 520px;
+  padding: $space-6;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: $space-4;
+  border-bottom: 1px solid $color-border;
+  margin-bottom: $space-4;
+
+  h3 {
+    font-family: $font-heading;
+    font-size: $text-lg;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
+}
+
+.modalCloseBtn {
+  background: none;
+  border: none;
+  color: $color-text-secondary;
+  cursor: pointer;
+  padding: $space-1;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include transition(color background-color);
+
+  &:hover {
+    color: $color-text-primary;
+    background-color: $color-surface-alt;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// ---- Admin Gallery Cards Grid (Edge-to-Edge Top Image) ----
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: $space-6;
+  margin-bottom: $space-8;
+}
+
+.galleryCard {
+  background-color: $color-surface;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  @include transition(transform box-shadow border-color);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+    border-color: $color-primary-300;
+  }
+}
+
+.galleryImgWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: $color-surface-alt;
+  overflow: hidden;
+  margin: 0;
+}
+
+.galleryCardBody {
+  padding: $space-4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $color-white;
+  border-top: 1px solid $color-border;
+}
+
+.badgeNumber {
+  display: inline-flex;
+  align-items: center;
+  font-size: $text-xs;
+  font-weight: $weight-bold;
+  color: $color-primary-700;
+  background-color: $color-primary-50;
+  padding: $space-1 $space-3;
+  border-radius: $radius-full;
+}

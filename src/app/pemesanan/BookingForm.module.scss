@@ -1,0 +1,305 @@
+@use 'sass:color';
+
+.bookingContainer {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+// ---- Step Indicator Progress Bar ----
+.stepIndicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-10;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    right: 40px;
+    height: 3px;
+    background-color: $color-border;
+    z-index: 1;
+  }
+}
+
+.stepItem {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-2;
+
+  .stepCircle {
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-full;
+    background-color: $color-white;
+    border: 2px solid $color-border;
+    color: $color-text-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: $weight-bold;
+    font-size: $text-sm;
+    @include transition(background-color border-color color);
+  }
+
+  .stepLabel {
+    font-size: $text-xs;
+    font-weight: $weight-medium;
+    color: $color-text-secondary;
+  }
+
+  &--active {
+    .stepCircle {
+      border-color: $color-primary;
+      background-color: $color-primary;
+      color: $color-white;
+    }
+
+    .stepLabel {
+      color: $color-primary;
+      font-weight: $weight-bold;
+    }
+  }
+
+  &--completed {
+    .stepCircle {
+      border-color: $color-success;
+      background-color: $color-success;
+      color: $color-white;
+    }
+  }
+}
+
+// ---- Step Card Wrapper ----
+.formCard {
+  background-color: $color-white;
+  padding: $space-8;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  margin-bottom: $space-8;
+}
+
+.formTitle {
+  font-family: $font-heading;
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $space-2;
+}
+
+.formSubtitle {
+  font-size: $text-sm;
+  color: $color-text-secondary;
+  margin-bottom: $space-6;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.label {
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  color: $color-text-primary;
+}
+
+.input {
+  width: 100%;
+  padding: $space-3 $space-4;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+  font-size: $text-base;
+  color: $color-text-primary;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px $color-primary-50;
+  }
+}
+
+// ---- Quantity Selector Item ----
+.ticketSelectorItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-4 $space-6;
+  border-radius: $radius-xl;
+  border: 1px solid $color-border;
+  margin-bottom: $space-4;
+
+  .itemInfo {
+    strong {
+      display: block;
+      font-size: $text-base;
+      color: $color-text-primary;
+    }
+    span {
+      font-size: $text-xs;
+      color: $color-text-secondary;
+    }
+    .priceTag {
+      font-size: $text-sm;
+      font-weight: $weight-bold;
+      color: $color-primary;
+      margin-top: $space-1;
+    }
+  }
+
+  .quantityControl {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+
+    button {
+      width: 44px;
+      height: 44px;
+      border-radius: $radius-full;
+      border: 1px solid $color-border;
+      background-color: $color-surface-alt;
+      font-weight: $weight-bold;
+      font-size: $text-xl;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover:not(:disabled) {
+        background-color: $color-primary-50;
+        color: $color-primary;
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      font-size: $text-lg;
+      font-weight: $weight-bold;
+      min-width: 24px;
+      text-align: center;
+    }
+  }
+}
+
+// ---- Gazebo Radio Selector Card ----
+.gazeboSelectGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.gazeboOptionCard {
+  border: 2px solid $color-border;
+  border-radius: $radius-xl;
+  padding: $space-5;
+  cursor: pointer;
+  @include transition(border-color background-color);
+
+  &:hover:not(&--disabled) {
+    border-color: $color-primary;
+    background-color: $color-primary-50;
+  }
+
+  &--selected {
+    border-color: $color-primary;
+    background-color: $color-primary-50;
+  }
+
+  &--disabled {
+    opacity: 0.5;
+    background-color: $color-surface-alt;
+    cursor: not-allowed;
+  }
+
+  .gazeboOptionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $space-2;
+  }
+
+  .gazeboOptionTitle {
+    font-size: $text-base;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
+
+  .gazeboOptionPrice {
+    font-size: $text-sm;
+    font-weight: $weight-bold;
+    color: $color-primary;
+  }
+}
+
+// ---- Summary Box ----
+.summaryBox {
+  background-color: $color-surface-alt;
+  border-radius: $radius-xl;
+  padding: $space-6;
+
+  .summaryRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: $text-sm;
+    color: $color-text-secondary;
+    padding: $space-2 0;
+
+    strong {
+      color: $color-text-primary;
+    }
+  }
+
+  .summaryTotal {
+    display: flex;
+    justify-content: space-between;
+    font-size: $text-lg;
+    font-weight: $weight-bold;
+    color: $color-primary;
+    padding-top: $space-4;
+    border-top: 2px dashed $color-border;
+    margin-top: $space-2;
+  }
+}
+
+.formActions {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-4;
+  margin-top: $space-6;
+
+  @include respond-below(sm) {
+    flex-direction: column-reverse;
+    gap: $space-3;
+
+    button,
+    a {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+# ============================================================
+# Riam Ensiling — Docker Compose (local development)
+#
+# Services:
+#   app   — Next.js app (dev server with hot reload)
+#   mysql — MySQL 8 database
+#
+# Usage:
+#   1. Copy .env.example → .env and fill in values
+#   2. docker compose up -d
+#   3. docker compose exec app npm run db:migrate
+#   4. docker compose exec app npm run db:seed
+# ============================================================
+
+services:
+  # ----------------------------------------------------------
+  # Next.js application (development)
+  # ----------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: riam_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source for hot reload
+      - .:/app
+      # Prevent host node_modules from overriding container's
+      - /app/node_modules
+      # Persistent uploads volume
+      - uploads_data:/app/public/uploads
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # ----------------------------------------------------------
+  # MySQL 8 database
+  # ----------------------------------------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: riam_mysql
+    restart: unless-stopped
+    ports:
+      # Expose to host for Prisma Studio / DB client access during dev
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mysql_data:
+    driver: local
+  uploads_data:
+    driver: local

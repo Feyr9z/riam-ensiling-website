@@ -1,0 +1,160 @@
+# 🏞️ Riam Ensiling — Website Informasi Wisata & Pemesanan Tiket / Gazebo
+
+> **Platform Sistem Informasi Pariwisata & Layanan Pemesanan Tiket/Gazebo Online Riam Ensiling**  
+> Dibuat sebagai produk nyata (*thesis demo*) yang tangguh, aman, dan siap diadaptasi untuk operasional wisata di Desa Lumut, Kabupaten Sanggau, Kalimantan Barat.
+
+---
+
+## 🛠️ Teknologi & Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org/) (App Router) + TypeScript (Strict Mode)
+- **Styling**: SCSS / SCSS Modules dengan Design Tokens kustom (Bebas Tailwind)
+- **Database & ORM**: [Prisma ORM](https://www.prisma.io/) + MySQL 8.0
+- **Pengesahan Admin**: HTTP-Only Cookie Session (`iron-session`) + `bcryptjs` Hashing
+- **Gateway Pembayaran**: Midtrans Snap Sandbox (QRIS, ShopeePay, GoPay, BCA/Mandiri/BRI Virtual Account)
+- **Validasi Data**: Zod Schema (Server-side & Client-side)
+- **Kontainerisasi**: Docker & Docker Compose (`Dockerfile.dev` & `docker-compose.yml`)
+
+---
+
+## ✨ Fitur Utama
+
+### 🌐 Portal Pengunjung Publik
+1. **Beranda & Profil Wisata**: Informasi keindahan alam Riam Ensiling, daftar atraksi unggulan, fasilitas penunjang, dan galeri foto interaktif.
+2. **Katalog Tiket & Gazebo (`/tiket-gazebo`)**: Informasi tarif tiket masuk dan daftar gazebo tepi sungai yang dapat disewa per hari.
+3. **Pemesanan Tanpa Registrasi (Guest Checkout)**: Wisatawan tidak perlu mendaftar akun — cukup mengisi Nama, Nomor WhatsApp, dan Tanggal Kunjungan.
+4. **Proteksi Double-Booking Gazebo**: Sistem database transaksi mencegah dua wisatawan menyewa gazebo yang sama pada tanggal kunjungan yang sama.
+5. **Kalkulasi Ulang Harga Server-Side**: Harga total dihitung ulang 100% di server dari database untuk mencegah manipulasi data dari browser.
+6. **Pembayaran Snap Sandbox (`Midtrans`)**: Integrasi otomatis popup pembayaran digital QRIS dan Virtual Account.
+7. **Cek Status Booking (`/cek-pemesanan`)**: Halaman mandiri bagi wisatawan untuk mengecek status pemesanan, melihat e-tiket, dan menyinkronkan status pembayaran secara *real-time*.
+
+### 🔑 Panel Kontrol Admin (`/admin`)
+1. **Keamanan Auth**: Login Admin terlindungi cookie HTTP-Only terenkripsi (bebas `localStorage`/`sessionStorage`).
+2. **Dashboard Overview**: Ringkasan jumlah data atraksi, fasilitas, tiket, gazebo, dan transaksi pemesanan.
+3. **Modul Manajemen Konten (CRUD)**:
+   - Kelola Atraksi Wisata (Nama, Deskripsi, Gambar, Urutan, Status Publikasi).
+   - Kelola Fasilitas (Nama, Deskripsi, Gambar, Urutan, Status Publikasi).
+   - Kelola Galeri Foto (URL Foto dengan fitur *Live Image Preview*).
+   - Kelola Tiket Masuk (Nama, Harga, Deskripsi, Status Aktif).
+   - Kelola Sewa Gazebo (Kode Gazebo, Nama, Harga, Kapasitas, Deskripsi, Status Aktif).
+4. **Manajemen Pemesanan Berbasis Aturan Bisnis**:
+   - Filter status transaksi (`Pending`, `Paid`, `Completed`, `Cancelled`, `Expired`).
+   - Fitur pencarian instan (*Live Search*) berdasarkan Kode Referensi, Nama, atau WhatsApp.
+   - Aturan transisi status yang aman (*Rule-Enforced*) serta validasi ketersediaan gazebo saat pengaktifan ulang booking.
+
+---
+
+## ⚡ Panduan Menjalankan Proyek (Local Development)
+
+### Prasyarat
+- [Node.js](https://nodejs.org/) v18+ atau v20+
+- [Docker & Docker Compose](https://www.docker.com/) (atau MySQL 8.0 lokal)
+
+### 1. Clone Repository & Install Dependensi
+```bash
+git clone https://github.com/Feyr9z/riam-ensiling-website.git
+cd riam-ensiling-website
+npm install
+```
+
+### 2. Konfigurasi Environment Variables
+Salin `.env.example` menjadi `.env`:
+```bash
+cp .env.example .env
+```
+Isi variabel `.env` sesuai kebutuhan (misal key Midtrans Sandbox milikmu).
+
+### 3. Jalankan Database MySQL via Docker Compose
+```bash
+docker-compose up -d mysql
+```
+*MySQL akan berjalan pada port `3307` di localhost.*
+
+### 4. Sinkronisasi Database Schema & Seed Data
+```bash
+# Push schema Prisma ke database MySQL
+npx prisma db push
+
+# Seed data awal (Admin, Atraksi, Fasilitas, Galeri, Tiket, Gazebo, Sample Booking)
+npm run db:seed
+```
+
+### 5. Jalankan Server Dev Next.js
+```bash
+npm run dev
+```
+Buka browser di **`http://localhost:3000`**.
+
+---
+
+## 🔐 Kredensial Akun Admin Default
+
+| Parameter | Kredensial Seed |
+|---|---|
+| **URL Login Admin** | `http://localhost:3000/admin/login` |
+| **Email Admin** | `admin@riamensiling.id` |
+| **Password Admin** | `AdminEnsiling2026!` |
+
+---
+
+## 💳 Konfigurasi Gateway Pembayaran Midtrans
+
+Proyek ini terintegrasi dengan **Midtrans Snap Sandbox API**.
+
+1. Dapatkan Server Key & Client Key dari [Midtrans Sandbox Dashboard](https://dashboard.sandbox.midtrans.com) (Menu **Settings** -> **Access Keys**).
+2. Perbarui file `.env`:
+   ```env
+   MIDTRANS_SERVER_KEY="SB-Mid-server-xxxxxxxxxxxxxxxx"
+   NEXT_PUBLIC_MIDTRANS_CLIENT_KEY="SB-Mid-client-xxxxxxxxxxxxxxxx"
+   MIDTRANS_IS_PRODUCTION=false
+   ```
+3. **Penyelaras Status (Auto-Sync)**: Di lingkungan dev lokal (`localhost`), status pembayaran diuji menggunakan [Midtrans Payment Simulator](https://simulator.sandbox.midtrans.com). Aplikasi ini dilengkapi dengan API Auto-Sync yang otomatis menyinkronkan status saat halaman `/cek-pemesanan` dibuka.
+
+---
+
+## ⏱️ Pembersihan Booking Kedaluwarsa (Auto-Expiry Sweep)
+
+Booking yang berstatus `PENDING` memiliki batas waktu `expiresAt` (default: 60 menit / 24 jam). 
+
+- **Sweeper Otomatis**: Sistem secara otomatis mengubah status booking expired menjadi `EXPIRED` dan **melepas kembali slot gazebo** saat ada pengunjung lain yang mengecek ketersediaan tanggal.
+- **Endpoint Cron**: `/api/cron/expire-bookings` (dapat dipanggil via HTTP GET/POST oleh scheduler external seperti Vercel Cron).
+
+---
+
+## 📁 Struktur Direktori Utama
+
+```
+riam-ensiling-website/
+├── prisma/
+│   ├── schema.prisma        # Definisi Model Database Prisma
+│   └── seed.ts              # Script Seeding Data Awal
+├── src/
+│   ├── app/                 # Next.js App Router (Pages & API Routes)
+│   │   ├── admin/           # Dashboard & Modul CRUD Admin
+│   │   ├── api/             # Webhook Midtrans & Cron Expire API
+│   │   ├── atraksi/         # Halaman Publik Atraksi Wisata
+│   │   ├── cek-pemesanan/   # Halaman Publik Cek Status Booking
+│   │   ├── fasilitas/       # Halaman Publik Fasilitas Wisata
+│   │   ├── galeri/          # Halaman Publik Galeri Foto
+│   │   ├── pemesanan/       # Form Booking Guest & Snap Payment
+│   │   ├── tentang/         # Halaman Profil & Kebijakan Wisata
+│   │   └── tiket-gazebo/    # Katalog Tarif Tiket & Gazebo
+│   ├── components/          # Reusable UI & Layout Components
+│   │   ├── admin/           # Komponen Khusus Navigasi & Tabel Admin
+│   │   ├── layout/          # Navbar, Footer, PageHeader
+│   │   └── ui/              # Button, Card, Modal, StatusBadge, Hero, GalleryGrid
+│   ├── lib/                 # Shared Utilities (Prisma, Auth, Midtrans, Expiry)
+│   └── styles/              # SCSS Design Tokens, Variables, Mixins, Reset
+├── .env.example             # Template Environment Variables
+├── docker-compose.yml       # Konfigurasi Docker MySQL & App
+├── Dockerfile.dev           # Container setup dev
+├── next.config.ts           # Konfigurasi Next.js
+├── PRD.md                   # Spesifikasi Utama & Aturan Proyek (Internal)
+└── AGENTS.md                # Aturan Kerja Tim Pengembang (Internal)
+```
+
+---
+
+## 📜 Lisensi & Hak Cipta
+
+Dibuat untuk Pengelola Pariwisata **Riam Ensiling**, Desa Lumut, Kabupaten Sanggau. Hak Cipta Dilindungi Undang-Undang © 2026.
