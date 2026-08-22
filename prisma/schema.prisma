@@ -1,0 +1,166 @@
+// ============================================================
+// Prisma Schema — Riam Ensiling Website
+// Database: MySQL
+// Spec: PRD.md Section 15
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ---- Enums ----
+
+enum BookingStatus {
+  PENDING
+  PAID
+  CANCELLED
+  EXPIRED
+  COMPLETED
+}
+
+enum BookingItemType {
+  TICKET
+  GAZEBO
+}
+
+// ---- Models ----
+
+/// Admin account for dashboard management (single admin role for v1)
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("admins")
+}
+
+/// Tourism attractions in Riam Ensiling
+model Attraction {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  imageUrl    String?  @map("image_url")
+  isPublished Boolean  @default(true) @map("is_published")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("attractions")
+}
+
+/// Destination facilities available for visitors
+model Facility {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  imageUrl    String?  @map("image_url")
+  isPublished Boolean  @default(true) @map("is_published")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("facilities")
+}
+
+/// Photo gallery items
+model GalleryItem {
+  id        String   @id @default(cuid())
+  imageUrl  String   @map("image_url")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("gallery_items")
+}
+
+/// Entry ticket types and pricing
+model Ticket {
+  id          String   @id @default(cuid())
+  name        String
+  price       Int      // Price in IDR
+  description String?  @db.Text
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("tickets")
+}
+
+/// Rentable gazebos
+model Gazebo {
+  id           String        @id @default(cuid())
+  code         String        @unique // e.g. "GZB-A1"
+  name         String        // e.g. "Gazebo Utama A1"
+  price        Int           // Price in IDR
+  capacity     Int?          // Maximum capacity (optional)
+  description  String?       @db.Text
+  isActive     Boolean       @default(true) @map("is_active")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  bookingItems BookingItem[]
+
+  @@map("gazebos")
+}
+
+/// Tourist bookings (guest checkout, no account required)
+model Booking {
+  id             String        @id @default(cuid())
+  referenceCode  String        @unique @map("reference_code") // RE-YYYYMMDD-XXXX
+  customerName   String        @map("customer_name")
+  whatsappNumber String        @map("whatsapp_number")
+  visitDate      DateTime      @map("visit_date") @db.Date
+  status         BookingStatus @default(PENDING)
+  totalPrice     Int           @map("total_price") // Recomputed server-side
+  expiresAt      DateTime      @map("expires_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  items          BookingItem[]
+  payments       Payment[]
+
+  @@index([status, visitDate])
+  @@index([referenceCode, whatsappNumber])
+  @@map("bookings")
+}
+
+/// Individual items within a booking (tickets and optional gazebo)
+model BookingItem {
+  id        String          @id @default(cuid())
+  bookingId String          @map("booking_id")
+  booking   Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  itemType  BookingItemType @map("item_type")
+  itemId    String          @map("item_id") // ID of ticket or gazebo
+  itemName  String          @map("item_name")
+  quantity  Int
+  unitPrice Int             @map("unit_price")
+  subtotal  Int
+  gazeboId  String?         @map("gazebo_id")
+  gazebo    Gazebo?         @relation(fields: [gazeboId], references: [id], onDelete: SetNull)
+
+  @@index([bookingId])
+  @@index([gazeboId])
+  @@map("booking_items")
+}
+
+/// Payment logs and status tracking via Midtrans
+model Payment {
+  id                     String   @id @default(cuid())
+  bookingId              String   @map("booking_id")
+  booking                Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  provider               String   @default("midtrans")
+  providerOrderId        String?  @map("provider_order_id")
+  providerTransactionId  String?  @map("provider_transaction_id")
+  status                 String
+  rawPayload             Json?    @map("raw_payload")
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  @@index([bookingId])
+  @@index([providerOrderId])
+  @@map("payments")
+}
