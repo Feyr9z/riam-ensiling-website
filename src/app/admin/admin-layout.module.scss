@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .wrapper {
   min-height: 100vh;
   display: flex;
@@ -6,19 +8,23 @@
 }
 
 .header {
-  height: 64px;
-  background-color: $color-primary-900;
+  min-height: 64px;
+  background: linear-gradient(135deg, $color-primary-900 0%, $color-primary-800 100%);
   color: $color-white;
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba($color-white, 0.1);
-  padding-inline: $space-6;
+  padding-block: $space-3;
 }
 
 .innerHeader {
   @include container;
-  @include flex-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
+  flex-wrap: wrap;
+  gap: $space-3;
 }
 
 .brand {
@@ -33,27 +39,41 @@
 
   span {
     font-size: $text-xs;
-    font-weight: $weight-medium;
+    font-weight: $weight-semibold;
     background-color: rgba($color-white, 0.15);
-    padding: $space-1 $space-2;
-    border-radius: $radius-sm;
-    color: $color-primary-200;
+    padding: $space-1 $space-2.5;
+    border-radius: $radius-md;
+    color: $color-accent-light;
+    border: 1px solid rgba($color-accent-light, 0.3);
   }
 }
 
 .userArea {
   display: flex;
   align-items: center;
-  gap: $space-4;
+  gap: $space-3;
+
+  @include respond-below(sm) {
+    font-size: $text-xs;
+    gap: $space-2;
+  }
 }
 
 .userEmail {
-  font-size: $text-sm;
-  color: $color-neutral-300;
+  font-size: $text-xs;
+  color: rgba($color-white, 0.85);
+
+  @include respond-to(md) {
+    font-size: $text-sm;
+  }
 }
 
 .main {
   flex: 1;
   @include container;
-  padding-block: $space-8;
+  padding-block: $space-6;
+
+  @include respond-to(md) {
+    padding-block: $space-8;
+  }
 }

@@ -182,7 +182,7 @@ export default function TiketManager({ initialItems }: { initialItems: Ticket[] 
           <table className={styles.table}>
             <thead>
               <tr>
-                <th style={{ width: "60px" }}>No</th>
+                <th>No</th>
                 <th>Nama Tiket</th>
                 <th>Harga</th>
                 <th>Deskripsi</th>

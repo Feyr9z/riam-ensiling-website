@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import Button from "@/components/ui/Button/Button";
-import StatusBadge, { BookingStatus } from "@/components/ui/StatusBadge/StatusBadge";
+import StatusBadge, { type BookingStatus } from "@/components/ui/StatusBadge/StatusBadge";
 import { updateBookingStatus } from "./actions";
 import styles from "@/components/admin/admin-table.module.scss";
 
 interface BookingItem {
   id: string;
-  itemType: string;
   itemName: string;
   quantity: number;
   unitPrice: number;
@@ -20,10 +19,10 @@ interface Booking {
   referenceCode: string;
   customerName: string;
   whatsappNumber: string;
-  visitDate: Date | string;
-  status: string;
+  visitDate: Date;
+  status: "PENDING" | "PAID" | "CANCELLED" | "EXPIRED" | "COMPLETED";
   totalPrice: number;
-  createdAt: Date | string;
+  createdAt: Date;
   items: BookingItem[];
 }
 
@@ -37,62 +36,33 @@ const STATUS_MAP: Record<string, BookingStatus> = {
 
 export default function BookingManager({ initialItems }: { initialItems: Booking[] }) {
   const [items, setItems] = useState<Booking[]>(initialItems);
-  const [filterStatus, setFilterStatus] = useState<string>("ALL");
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleStatusChange = async (bookingId: string, newStatus: string) => {
-    if (!confirm(`Ubah status pemesanan menjadi ${newStatus}?`)) return;
+  const handleStatusChange = async (id: string, newStatus: string) => {
     setLoading(true);
-
-    const res = await updateBookingStatus(bookingId, newStatus as any);
-    if (res.success) {
-      setItems(items.map((b) => (b.id === bookingId ? { ...b, status: newStatus } : b)));
-      if (selectedBooking?.id === bookingId) {
-        setSelectedBooking({ ...selectedBooking, status: newStatus });
+    const res = await updateBookingStatus(id, newStatus as any);
+    if (res.success && res.data) {
+      setItems(items.map((i) => (i.id === id ? { ...i, status: res.data!.status } : i)));
+      if (selectedBooking && selectedBooking.id === id) {
+        setSelectedBooking({ ...selectedBooking, status: res.data!.status });
       }
+    } else {
+      alert(res.errorMsg || "Gagal mengubah status pemesanan.");
     }
     setLoading(false);
   };
 
-  const filteredItems = filterStatus === "ALL" ? items : items.filter((b) => b.status === filterStatus);
+  const formatRupiah = (amount: number) =>
+    new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(amount);
 
-  const formatRupiah = (amount: number) => {
-    return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(amount);
-  };
-
-  const formatDate = (dateString: Date | string) => {
-    return new Date(dateString).toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  };
+  const formatDate = (date: Date) =>
+    new Date(date).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
 
   return (
     <div>
       <div className={styles.header}>
-        <div>
-          <h2>Manajemen Pemesanan Tiket & Gazebo</h2>
-          <p style={{ color: "#666", fontSize: "0.875rem" }}>
-            Pantau status transaksi pemesanan dan verifikasi pengunjung
-          </p>
-        </div>
-
-        <div>
-          <select
-            className={styles.select}
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
-            <option value="ALL">Semua Status</option>
-            <option value="PENDING">Menunggu Pembayaran</option>
-            <option value="PAID">Sudah Dibayar</option>
-            <option value="COMPLETED">Selesai / Terverifikasi</option>
-            <option value="CANCELLED">Dibatalkan</option>
-            <option value="EXPIRED">Kedaluwarsa</option>
-          </select>
-        </div>
+        <h1>Daftar Pemesanan Wisatawan</h1>
       </div>
 
       <div className={styles.tableCard}>
@@ -100,30 +70,35 @@ export default function BookingManager({ initialItems }: { initialItems: Booking
           <table className={styles.table}>
             <thead>
               <tr>
+                <th>No</th>
                 <th>Kode Booking</th>
-                <th>Nama Pemesan</th>
-                <th>No. WhatsApp</th>
+                <th>Pemesan</th>
                 <th>Tgl Kunjungan</th>
-                <th>Total</th>
+                <th>Total Harga</th>
                 <th>Status</th>
-                <th>Aksi</th>
+                <th>Aksi & Ubah Status</th>
               </tr>
             </thead>
             <tbody>
-              {filteredItems.length === 0 ? (
+              {items.length === 0 ? (
                 <tr>
                   <td colSpan={7} className={styles.emptyState}>
-                    Belum ada data pemesanan.
+                    Belum ada transaksi pemesanan.
                   </td>
                 </tr>
               ) : (
-                filteredItems.map((item) => (
+                items.map((item, idx) => (
                   <tr key={item.id}>
+                    <td>{idx + 1}</td>
                     <td>
-                      <strong style={{ fontFamily: "monospace" }}>{item.referenceCode}</strong>
+                      <strong style={{ fontFamily: "monospace", color: "#2b6cb0" }}>{item.referenceCode}</strong>
                     </td>
-                    <td>{item.customerName}</td>
-                    <td>{item.whatsappNumber}</td>
+                    <td>
+                      <div>
+                        <strong>{item.customerName}</strong>
+                        <div style={{ fontSize: "0.75rem", color: "#666" }}>{item.whatsappNumber}</div>
+                      </div>
+                    </td>
                     <td>{formatDate(item.visitDate)}</td>
                     <td>
                       <strong>{formatRupiah(item.totalPrice)}</strong>
@@ -143,7 +118,7 @@ export default function BookingManager({ initialItems }: { initialItems: Booking
 
                         <select
                           className={styles.select}
-                          style={{ padding: "0.25rem 0.5rem", fontSize: "0.75rem" }}
+                          style={{ width: "auto", padding: "0.25rem 0.5rem", fontSize: "0.75rem" }}
                           value={item.status}
                           disabled={loading}
                           onChange={(e) => handleStatusChange(item.id, e.target.value)}
@@ -164,51 +139,56 @@ export default function BookingManager({ initialItems }: { initialItems: Booking
         </div>
       </div>
 
-      {/* Modal / Detail View */}
+      {/* Modal Detail View */}
       {selectedBooking && (
         <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100,
-            padding: "1rem",
-          }}
+          className={styles.modalOverlay}
           onClick={() => setSelectedBooking(null)}
+          aria-modal="true"
+          role="dialog"
         >
           <div
-            className={styles.formCard}
-            style={{ maxWidth: "500px", width: "100%", margin: 0 }}
+            className={styles.modalCard}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
+            <div className={styles.modalHeader}>
               <h3>Detail Pemesanan #{selectedBooking.referenceCode}</h3>
-              <Button variant="ghost" size="sm" onClick={() => setSelectedBooking(null)}>
-                ✕
-              </Button>
+              <button
+                type="button"
+                className={styles.modalCloseBtn}
+                onClick={() => setSelectedBooking(null)}
+                aria-label="Tutup modal detail"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
             </div>
 
-            <div style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-              <p><strong>Nama:</strong> {selectedBooking.customerName}</p>
-              <p><strong>WhatsApp:</strong> {selectedBooking.whatsappNumber}</p>
-              <p><strong>Tgl Kunjungan:</strong> {formatDate(selectedBooking.visitDate)}</p>
-              <p><strong>Status:</strong> <StatusBadge status={STATUS_MAP[selectedBooking.status] || "info"} /></p>
+            <div style={{ fontSize: "0.875rem", lineHeight: "1.7", color: "#2d3748" }}>
+              <p><strong>Nama Pemesan:</strong> {selectedBooking.customerName}</p>
+              <p><strong>Nomor WhatsApp:</strong> {selectedBooking.whatsappNumber}</p>
+              <p><strong>Tanggal Kunjungan:</strong> {formatDate(selectedBooking.visitDate)}</p>
+              <p style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "0.25rem" }}>
+                <strong>Status:</strong> <StatusBadge status={STATUS_MAP[selectedBooking.status] || "info"} />
+              </p>
             </div>
 
-            <h4 style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>Item Dipesan:</h4>
-            <ul style={{ paddingLeft: "1.2rem", fontSize: "0.875rem" }}>
-              {selectedBooking.items.map((i) => (
-                <li key={i.id}>
-                  {i.itemName} ({i.quantity}x) — {formatRupiah(i.subtotal)}
-                </li>
-              ))}
-            </ul>
+            <div style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid #e2e8f0" }}>
+              <strong style={{ fontSize: "0.875rem", color: "#1a202c", display: "block", marginBottom: "0.5rem" }}>Rincian Item Tiket & Gazebo:</strong>
+              <ul style={{ listStyle: "disc", paddingLeft: "1.2rem", fontSize: "0.875rem", color: "#4a5568" }}>
+                {selectedBooking.items.map((i) => (
+                  <li key={i.id} style={{ marginBottom: "0.25rem" }}>
+                    <strong>{i.itemName}</strong> ({i.quantity}x) — {formatRupiah(i.subtotal)}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-            <div style={{ marginTop: "1rem", paddingTop: "0.75rem", borderTop: "1px solid #eee" }}>
-              <strong>Total Harga: {formatRupiah(selectedBooking.totalPrice)}</strong>
+            <div style={{ marginTop: "1rem", paddingTop: "0.75rem", borderTop: "2px dashed #cbd5e0", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "1rem", fontWeight: 700, color: "#1b4d3e" }}>
+              <span>Total Pembayaran:</span>
+              <span>{formatRupiah(selectedBooking.totalPrice)}</span>
             </div>
           </div>
         </div>

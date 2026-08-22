@@ -177,7 +177,7 @@ export default function FasilitasManager({ initialItems }: { initialItems: Facil
           <table className={styles.table}>
             <thead>
               <tr>
-                <th style={{ width: "60px" }}>No</th>
+                <th>No</th>
                 <th>Nama Fasilitas</th>
                 <th>Deskripsi</th>
                 <th>Status</th>

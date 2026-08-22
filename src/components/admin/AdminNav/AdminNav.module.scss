@@ -1,8 +1,16 @@
+@use 'sass:color';
+
 .navBar {
   background-color: $color-surface;
   border-bottom: 1px solid $color-border;
   overflow-x: auto;
   overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .inner {
@@ -16,7 +24,6 @@
 .link {
   display: inline-flex;
   align-items: center;
-  gap: $space-2;
   font-size: $text-sm;
   font-weight: $weight-medium;
   color: $color-text-secondary;
