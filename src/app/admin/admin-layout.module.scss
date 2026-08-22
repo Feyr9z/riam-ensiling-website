@@ -1,0 +1,59 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $color-bg;
+}
+
+.header {
+  height: 64px;
+  background-color: $color-primary-900;
+  color: $color-white;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba($color-white, 0.1);
+  padding-inline: $space-6;
+}
+
+.innerHeader {
+  @include container;
+  @include flex-between;
+  width: 100%;
+}
+
+.brand {
+  font-family: $font-heading;
+  font-size: $text-lg;
+  font-weight: $weight-bold;
+  color: $color-white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+
+  span {
+    font-size: $text-xs;
+    font-weight: $weight-medium;
+    background-color: rgba($color-white, 0.15);
+    padding: $space-1 $space-2;
+    border-radius: $radius-sm;
+    color: $color-primary-200;
+  }
+}
+
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.userEmail {
+  font-size: $text-sm;
+  color: $color-neutral-300;
+}
+
+.main {
+  flex: 1;
+  @include container;
+  padding-block: $space-8;
+}
