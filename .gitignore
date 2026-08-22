@@ -1,0 +1,53 @@
+# --- Local-only project docs (never pushed to GitHub) ---
+PRD.md
+AGENTS.md
+.agents/
+
+# --- Secrets ---
+.env
+.env.local
+.env.*.local
+
+# --- Dependencies ---
+node_modules/
+.pnp
+.pnp.js
+
+# --- Next.js build output ---
+.next/
+out/
+build/
+dist/
+
+# --- Prisma ---
+# Keep schema.prisma and migrations tracked; ignore generated client output if emitted outside node_modules
+prisma/generated/
+
+# --- Uploaded/user content (demo images etc.) ---
+public/uploads/
+uploads/
+
+# --- Docker ---
+*.pid
+
+# --- Logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# --- OS / Editor junk ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- TypeScript ---
+*.tsbuildinfo
+next-env.d.ts
+
+# --- Test/coverage output ---
+coverage/
