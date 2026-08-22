@@ -121,15 +121,19 @@ export default function CekStatusForm() {
     <div className={styles.container}>
       {/* Search Form Card */}
       <div className={styles.searchCard}>
-        <form onSubmit={onSubmit} className={styles.searchForm}>
+        <form onSubmit={onSubmit} className={styles.searchForm} role="search" aria-label="Cari Status Booking">
           <div className={styles.field}>
-            <label className={styles.label}>Kode Booking atau Nomor WhatsApp *</label>
+            <label htmlFor="booking-search-input" className={styles.label}>
+              Kode Booking atau Nomor WhatsApp *
+            </label>
             <input
+              id="booking-search-input"
               required
               className={styles.input}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="misal: RE-20260822-DEMO atau 081234567890"
+              aria-required="true"
             />
           </div>
           <Button type="submit" variant="primary" size="md" loading={loading}>
