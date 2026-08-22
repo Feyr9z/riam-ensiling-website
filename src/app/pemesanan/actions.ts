@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { createSnapTransaction } from "@/lib/midtrans";
+import { expireStaleBookings } from "@/lib/booking-expiry";
 
 const bookingSchema = z.object({
   customerName: z.string().min(2, "Nama lengkap minimal 2 karakter"),
@@ -22,6 +23,8 @@ export type CreateBookingInput = z.infer<typeof bookingSchema>;
 
 export async function getAvailableGazebosForDate(dateString: string) {
   try {
+    await expireStaleBookings();
+
     const targetDate = new Date(dateString);
     if (isNaN(targetDate.getTime())) {
       return { success: false, errorMsg: "Tanggal kunjungan tidak valid." };
@@ -69,6 +72,8 @@ export async function getAvailableGazebosForDate(dateString: string) {
 
 export async function createBooking(input: CreateBookingInput) {
   try {
+    await expireStaleBookings();
+
     const validation = bookingSchema.safeParse(input);
     if (!validation.success) {
       return { success: false, errorMsg: "Mohon lengkapi seluruh data form dengan benar." };
