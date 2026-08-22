@@ -305,37 +305,49 @@ export default function BookingForm({ availableTickets }: { availableTickets: Ti
 
           <div className={styles.grid2}>
             <div className={styles.field}>
-              <label className={styles.label}>Nama Lengkap Pemesan *</label>
+              <label htmlFor="customer-name" className={styles.label}>
+                Nama Lengkap Pemesan *
+              </label>
               <input
+                id="customer-name"
                 required
                 className={styles.input}
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 placeholder="misal: Budi Santoso"
+                aria-required="true"
               />
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>Nomor WhatsApp (Aktif) *</label>
+              <label htmlFor="whatsapp-number" className={styles.label}>
+                Nomor WhatsApp (Aktif) *
+              </label>
               <input
+                id="whatsapp-number"
                 required
                 type="tel"
                 className={styles.input}
                 value={whatsappNumber}
                 onChange={(e) => setWhatsappNumber(e.target.value.replace(/[^0-9]/g, ""))}
                 placeholder="misal: 081234567890"
+                aria-required="true"
               />
             </div>
 
             <div className={styles.field} style={{ gridColumn: "1 / -1" }}>
-              <label className={styles.label}>Tanggal Kunjungan *</label>
+              <label htmlFor="visit-date" className={styles.label}>
+                Tanggal Kunjungan *
+              </label>
               <input
+                id="visit-date"
                 required
                 type="date"
                 className={styles.input}
                 min={new Date().toISOString().slice(0, 10)}
                 value={visitDate}
                 onChange={(e) => setVisitDate(e.target.value)}
+                aria-required="true"
               />
             </div>
           </div>
@@ -365,6 +377,7 @@ export default function BookingForm({ availableTickets }: { availableTickets: Ti
               <div className={styles.quantityControl}>
                 <button
                   type="button"
+                  aria-label={`Kurangi jumlah ${t.name}`}
                   onClick={() => handleQuantityChange(t.id, -1)}
                   disabled={ticketQuantities[t.id] === 0}
                 >
@@ -373,6 +386,7 @@ export default function BookingForm({ availableTickets }: { availableTickets: Ti
                 <span>{ticketQuantities[t.id] || 0}</span>
                 <button
                   type="button"
+                  aria-label={`Tambah jumlah ${t.name}`}
                   onClick={() => handleQuantityChange(t.id, 1)}
                 >
                   +
