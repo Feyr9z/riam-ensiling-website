@@ -1,5 +1,6 @@
 import type { GalleryItem as PrismaGalleryItem } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import PageHeader from "@/components/layout/PageHeader/PageHeader";
 import Button from "@/components/ui/Button/Button";
 import GalleryViewer from "./GalleryViewer";
 import styles from "./galeri.module.scss";
@@ -23,15 +24,11 @@ export default async function GaleriPage() {
 
   return (
     <>
-      <header className={styles.header}>
-        <div className="container">
-          <span className={styles.eyebrow}>Dokumentasi Visual</span>
-          <h1 className={styles.title}>Galeri Foto Riam Ensiling</h1>
-          <p className={styles.subtitle}>
-            Nikmati potret keasrian alam, jernihnya air sungai, dan keceriaan suasana wisatawan di Riam Ensiling.
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Dokumentasi Visual"
+        title="Galeri Foto Riam Ensiling"
+        subtitle="Nikmati potret keasrian alam, jernihnya air sungai, dan keceriaan suasana wisatawan di Riam Ensiling."
+      />
 
       <section className={styles.section}>
         <div className="container">

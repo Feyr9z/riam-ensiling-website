@@ -1,4 +1,6 @@
-import SectionHeader from "@/components/ui/SectionHeader/SectionHeader";
+import { Suspense } from "react";
+import PageHeader from "@/components/layout/PageHeader/PageHeader";
+import CekStatusForm from "./CekStatusForm";
 
 export const metadata = {
   title: "Cek Status Pemesanan",
@@ -7,13 +9,18 @@ export const metadata = {
 
 export default function CekPemesananPage() {
   return (
-    <div className="container section">
-      <SectionHeader
-        eyebrow="Pencarian Transaksi"
+    <>
+      <PageHeader
+        eyebrow="Pancarian Status Transaksi"
         title="Cek Status Pemesanan"
-        subtitle="Masukkan kode referensi booking dan nomor WhatsApp untuk memverifikasi status tiket Anda."
-        size="lg"
+        subtitle="Masukkan kode referensi booking (misal: RE-20260822-DEMO) atau nomor WhatsApp Anda untuk memverifikasi status rincian transaksi."
       />
-    </div>
+
+      <section className="container section">
+        <Suspense fallback={<p style={{ textAlign: "center", padding: "3rem" }}>Memuat formulir...</p>}>
+          <CekStatusForm />
+        </Suspense>
+      </section>
+    </>
   );
 }

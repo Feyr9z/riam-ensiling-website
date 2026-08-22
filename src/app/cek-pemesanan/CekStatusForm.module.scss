@@ -1,0 +1,123 @@
+@use 'sass:color';
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.searchCard {
+  background-color: $color-white;
+  padding: $space-8;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  margin-bottom: $space-8;
+}
+
+.searchForm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.label {
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  color: $color-text-primary;
+}
+
+.input {
+  width: 100%;
+  padding: $space-3 $space-4;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+  font-size: $text-base;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px $color-primary-50;
+  }
+}
+
+// ---- Result Details Card ----
+.resultCard {
+  background-color: $color-white;
+  padding: $space-8;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-md;
+}
+
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: $space-6;
+  border-bottom: 1px solid $color-border;
+  margin-bottom: $space-6;
+}
+
+.refCode {
+  font-size: $text-2xl;
+  font-weight: $weight-bold;
+  color: $color-primary;
+}
+
+.customerInfo {
+  font-size: $text-sm;
+  color: $color-text-secondary;
+  margin-top: $space-1;
+}
+
+.detailSection {
+  margin-bottom: $space-6;
+
+  h3 {
+    font-size: $text-base;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $space-3;
+  }
+}
+
+.itemTable {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: $space-3 $space-4;
+    text-align: left;
+    font-size: $text-sm;
+    border-bottom: 1px solid $color-border;
+  }
+
+  th {
+    background-color: $color-surface-alt;
+    color: $color-text-secondary;
+    font-weight: $weight-semibold;
+  }
+}
+
+.grandTotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  color: $color-primary;
+  padding-top: $space-4;
+  margin-top: $space-4;
+  border-top: 2px dashed $color-border;
+}

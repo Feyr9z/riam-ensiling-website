@@ -1,4 +1,5 @@
 import Image from "next/image";
+import PageHeader from "@/components/layout/PageHeader/PageHeader";
 import SectionHeader from "@/components/ui/SectionHeader/SectionHeader";
 import Button from "@/components/ui/Button/Button";
 import styles from "./tentang.module.scss";
@@ -12,16 +13,11 @@ export const metadata = {
 export default function TentangPage() {
   return (
     <>
-      {/* Page Header */}
-      <header className={styles.pageHeader}>
-        <div className="container">
-          <span className={styles.headerEyebrow}>Profil Destinasi Wisata</span>
-          <h1 className={styles.headerTitle}>Tentang Riam Ensiling</h1>
-          <p className={styles.headerSubtitle}>
-            Menyuguhkan keindahan panorama sungai jernih, gemuruh air terjun alami, dan keramahan budaya khas Desa Lumut, Kabupaten Sanggau.
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Profil Destinasi Wisata"
+        title="Tentang Riam Ensiling"
+        subtitle="Menyuguhkan keindahan panorama sungai jernih, gemuruh air terjun alami, dan keramahan budaya khas Desa Lumut, Kabupaten Sanggau."
+      />
 
       {/* Story & Background */}
       <section className={styles.section}>

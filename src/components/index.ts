@@ -1,6 +1,7 @@
 // ---- Layout components ----
 export { default as Navbar } from "./layout/Navbar/Navbar";
 export { default as Footer } from "./layout/Footer/Footer";
+export { default as PageHeader } from "./layout/PageHeader/PageHeader";
 
 // ---- UI components ----
 export { default as Button } from "./ui/Button/Button";
