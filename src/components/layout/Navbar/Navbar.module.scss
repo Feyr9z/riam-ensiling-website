@@ -1,0 +1,244 @@
+$navbar-height: 68px;
+$navbar-height-md: 76px;
+
+// ---- Root ----
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+  height: $navbar-height;
+  display: flex;
+  align-items: center;
+  background-color: rgba($color-white, 0.92);
+  border-bottom: 1px solid $color-border;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  @include transition(box-shadow);
+
+  @include respond-to(md) {
+    height: $navbar-height-md;
+  }
+
+  &--scrolled {
+    box-shadow: $shadow-sm;
+    border-bottom-color: $color-border-strong;
+  }
+}
+
+// ---- Inner layout ----
+.inner {
+  @include container;
+  @include flex-between;
+  height: 100%;
+}
+
+// ---- Logo / Wordmark ----
+.logo {
+  @include button-reset;
+  font-family: $font-heading;
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  color: $color-primary;
+  text-decoration: none;
+  letter-spacing: $tracking-tight;
+  @include transition(color);
+  flex-shrink: 0;
+
+  &:hover {
+    color: $color-primary-dark;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-radius: $radius-md;
+  }
+
+  span {
+    color: $color-accent;
+  }
+}
+
+// ---- Desktop nav ----
+.nav {
+  display: none;
+  align-items: center;
+  gap: $space-1;
+  list-style: none;
+
+  @include respond-to(lg) {
+    display: flex;
+  }
+}
+
+.navItem {
+  // wrapper li
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-text-secondary;
+  text-decoration: none;
+  padding: $space-2 $space-3;
+  border-radius: $radius-md;
+  @include transition(color background-color);
+  white-space: nowrap;
+
+  &:hover {
+    color: $color-text-primary;
+    background-color: $color-surface-alt;
+  }
+
+  &--active {
+    color: $color-primary;
+    background-color: $color-primary-50;
+    font-weight: $weight-semibold;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---- Desktop actions (CTA) ----
+.actions {
+  display: none;
+  align-items: center;
+  gap: $space-3;
+
+  @include respond-to(lg) {
+    display: flex;
+  }
+}
+
+// ---- Hamburger button ----
+.hamburger {
+  @include button-reset;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-md;
+  @include transition(background-color);
+
+  @include respond-to(lg) {
+    display: none;
+  }
+
+  &:hover {
+    background-color: $color-surface-alt;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.hamburgerLine {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: $color-text-primary;
+  border-radius: $radius-full;
+  @include transition(transform opacity);
+  transform-origin: center;
+
+  &:nth-child(1) {
+    .hamburger--open & {
+      transform: translateY(7px) rotate(45deg);
+    }
+  }
+
+  &:nth-child(2) {
+    .hamburger--open & {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+  }
+
+  &:nth-child(3) {
+    .hamburger--open & {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+}
+
+// ---- Mobile menu ----
+.mobileMenu {
+  position: fixed;
+  top: $navbar-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $z-overlay;
+  background-color: $color-white;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: $space-4;
+  border-top: 1px solid $color-border;
+
+  // Hidden by default
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  @include transition(opacity visibility transform);
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  @include respond-to(md) {
+    top: $navbar-height-md;
+  }
+
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+.mobileNav {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  margin-bottom: $space-6;
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  font-size: $text-base;
+  font-weight: $weight-medium;
+  color: $color-text-secondary;
+  text-decoration: none;
+  padding: $space-4 $space-4;
+  border-radius: $radius-lg;
+  @include transition(color background-color);
+
+  &:hover {
+    color: $color-text-primary;
+    background-color: $color-surface-alt;
+  }
+
+  &--active {
+    color: $color-primary;
+    background-color: $color-primary-50;
+    font-weight: $weight-semibold;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.mobileCta {
+  padding-top: $space-4;
+  border-top: 1px solid $color-border;
+}

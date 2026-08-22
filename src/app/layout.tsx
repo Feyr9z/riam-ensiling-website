@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Navbar, Footer } from "@/components";
 import "@/styles/globals.scss";
 
 // ---- Google Fonts via next/font (zero CLS, self-hosted) ----
-// Sets CSS variables --font-heading and --font-body on <html>
-
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-heading",
@@ -20,7 +19,6 @@ const inter = Inter({
 });
 
 // ---- SEO Metadata ----
-
 export const metadata: Metadata = {
   title: {
     default: "Riam Ensiling",
@@ -43,14 +41,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 // ---- Root Layout ----
-
 export default function RootLayout({
   children,
 }: {
@@ -61,7 +55,12 @@ export default function RootLayout({
       lang="id"
       className={`${plusJakartaSans.variable} ${inter.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        <main id="main-content">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
+
