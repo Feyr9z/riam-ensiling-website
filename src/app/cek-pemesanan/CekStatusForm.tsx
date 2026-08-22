@@ -4,8 +4,16 @@ import { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Button from "@/components/ui/Button/Button";
 import StatusBadge from "@/components/ui/StatusBadge/StatusBadge";
+import { NEXT_PUBLIC_MIDTRANS_CLIENT_KEY } from "@/lib/midtrans";
+import { getSnapTokenForBooking } from "@/app/pemesanan/actions";
 import { searchBookingByCodeOrPhone } from "./actions";
 import styles from "./CekStatusForm.module.scss";
+
+declare global {
+  interface Window {
+    snap?: any;
+  }
+}
 
 interface BookingItem {
   id: string;
@@ -34,8 +42,24 @@ export default function CekStatusForm() {
 
   const [query, setQuery] = useState(initialCode);
   const [loading, setLoading] = useState(false);
+  const [payLoading, setPayLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [booking, setBooking] = useState<BookingResult | null>(null);
+
+  // Dynamically load Midtrans Snap JS SDK
+  useEffect(() => {
+    const snapUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const existingScript = document.getElementById("midtrans-snap-script");
+
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = snapUrl;
+      script.id = "midtrans-snap-script";
+      script.setAttribute("data-client-key", NEXT_PUBLIC_MIDTRANS_CLIENT_KEY);
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
 
   const handleSearch = useCallback(async (searchKey: string) => {
     if (!searchKey.trim()) return;
@@ -61,6 +85,33 @@ export default function CekStatusForm() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     handleSearch(query);
+  };
+
+  const handlePayWithSnap = async (refCode: string) => {
+    setPayLoading(true);
+    const tokenRes = await getSnapTokenForBooking(refCode);
+
+    if (tokenRes.success && tokenRes.snapToken) {
+      if (window.snap) {
+        window.snap.pay(tokenRes.snapToken, {
+          onSuccess: function () {
+            handleSearch(refCode);
+          },
+          onPending: function () {
+            handleSearch(refCode);
+          },
+          onError: function () {
+            alert("Pembayaran gagal. Silakan coba lagi.");
+          },
+          onClose: function () {
+            handleSearch(refCode);
+          },
+        });
+      }
+    } else {
+      alert(tokenRes.errorMsg || "Gagal memuat gateway pembayaran.");
+    }
+    setPayLoading(false);
   };
 
   const formatRupiah = (amount: number) =>
@@ -166,11 +217,29 @@ export default function CekStatusForm() {
           </div>
 
           {booking.status === "PENDING" && (
-            <div style={{ background: "#fffaf0", border: "1px solid #feebc8", padding: "1.25rem", borderRadius: "0.75rem", marginTop: "1.5rem" }}>
+            <div style={{ background: "#fffaf0", border: "1px solid #feebc8", padding: "1.5rem", borderRadius: "1rem", marginTop: "1.5rem" }}>
               <h4 style={{ color: "#dd6b20", fontSize: "1rem", fontWeight: 700, marginBottom: "0.5rem" }}>⚠️ Menunggu Pembayaran Digital</h4>
-              <p style={{ fontSize: "0.875rem", color: "#744210", lineHeight: 1.5 }}>
-                Pemesanan Anda sedang menunggu proses verifikasi atau transaksi via Midtrans Snap. Jika sudah membayar namun status belum berubah, silakan hubungi pengelola via WhatsApp.
+              <p style={{ fontSize: "0.875rem", color: "#744210", lineHeight: 1.5, marginBottom: "1rem" }}>
+                Pemesanan Anda sedang menunggu proses verifikasi atau transaksi via Midtrans Snap (QRIS, ShopeePay, GoPay, Virtual Account).
               </p>
+              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                <Button
+                  variant="accent"
+                  size="md"
+                  loading={payLoading}
+                  onClick={() => handlePayWithSnap(booking.referenceCode)}
+                >
+                  💳 Selesaikan Pembayaran via Midtrans
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="md"
+                  loading={loading}
+                  onClick={() => handleSearch(booking.referenceCode)}
+                >
+                  🔄 Cek / Refresh Status Pembayaran
+                </Button>
+              </div>
             </div>
           )}
         </div>

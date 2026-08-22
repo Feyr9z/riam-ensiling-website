@@ -3,8 +3,15 @@
 import { useState, useEffect, useCallback } from "react";
 import Button from "@/components/ui/Button/Button";
 import StatusBadge from "@/components/ui/StatusBadge/StatusBadge";
-import { getAvailableGazebosForDate, createBooking } from "./actions";
+import { NEXT_PUBLIC_MIDTRANS_CLIENT_KEY } from "@/lib/midtrans";
+import { getAvailableGazebosForDate, createBooking, getSnapTokenForBooking } from "./actions";
 import styles from "./BookingForm.module.scss";
+
+declare global {
+  interface Window {
+    snap?: any;
+  }
+}
 
 interface TicketItem {
   id: string;
@@ -26,6 +33,7 @@ interface GazeboOption {
 export default function BookingForm({ availableTickets }: { availableTickets: TicketItem[] }) {
   const [step, setStep] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const [payLoading, setPayLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // Form State
@@ -55,6 +63,21 @@ export default function BookingForm({ availableTickets }: { availableTickets: Ti
 
   // Booking Result State
   const [createdBooking, setCreatedBooking] = useState<{ referenceCode: string; bookingId: string } | null>(null);
+
+  // Dynamically load Midtrans Snap JS SDK
+  useEffect(() => {
+    const snapUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const existingScript = document.getElementById("midtrans-snap-script");
+
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = snapUrl;
+      script.id = "midtrans-snap-script";
+      script.setAttribute("data-client-key", NEXT_PUBLIC_MIDTRANS_CLIENT_KEY);
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
 
   // Fetch gazebos when visitDate changes
   const fetchGazebos = useCallback(async (dateStr: string) => {
@@ -152,6 +175,37 @@ export default function BookingForm({ availableTickets }: { availableTickets: Ti
     setLoading(false);
   };
 
+  // Trigger Midtrans Snap Payment Gateway
+  const handlePayWithSnap = async (refCode: string) => {
+    setPayLoading(true);
+    const tokenRes = await getSnapTokenForBooking(refCode);
+
+    if (tokenRes.success && tokenRes.snapToken) {
+      if (window.snap) {
+        window.snap.pay(tokenRes.snapToken, {
+          onSuccess: function () {
+            window.location.href = `/cek-pemesanan?code=${refCode}`;
+          },
+          onPending: function () {
+            window.location.href = `/cek-pemesanan?code=${refCode}`;
+          },
+          onError: function () {
+            alert("Pembayaran gagal. Silakan coba lagi.");
+          },
+          onClose: function () {
+            window.location.href = `/cek-pemesanan?code=${refCode}`;
+          },
+        });
+      } else {
+        // Fallback redirect URL
+        window.location.href = `/cek-pemesanan?code=${refCode}`;
+      }
+    } else {
+      alert(tokenRes.errorMsg || "Gagal memuat gateway pembayaran.");
+    }
+    setPayLoading(false);
+  };
+
   const formatRupiah = (amount: number) =>
     new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(amount);
 
@@ -195,11 +249,16 @@ export default function BookingForm({ availableTickets }: { availableTickets: Ti
           </div>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <Button as="link" href={`/cek-pemesanan?code=${createdBooking.referenceCode}`} variant="accent" size="lg">
-              Cek Status & Instruksi Pembayaran
+            <Button
+              variant="accent"
+              size="lg"
+              loading={payLoading}
+              onClick={() => handlePayWithSnap(createdBooking.referenceCode)}
+            >
+              💳 Bayar Sekarang via Midtrans (QRIS / Bank)
             </Button>
-            <Button as="link" href="/" variant="ghost" size="lg">
-              Kembali ke Beranda
+            <Button as="link" href={`/cek-pemesanan?code=${createdBooking.referenceCode}`} variant="secondary" size="lg">
+              Cek Status & Instruksi Pembayaran
             </Button>
           </div>
         </div>
