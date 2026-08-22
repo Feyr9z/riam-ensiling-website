@@ -1,0 +1,43 @@
+.navBar {
+  background-color: $color-surface;
+  border-bottom: 1px solid $color-border;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.inner {
+  @include container;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding-block: $space-2;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-text-secondary;
+  text-decoration: none;
+  padding: $space-2 $space-4;
+  border-radius: $radius-md;
+  white-space: nowrap;
+  @include transition(color background-color);
+
+  &:hover {
+    color: $color-text-primary;
+    background-color: $color-surface-alt;
+  }
+
+  &--active {
+    color: $color-primary;
+    background-color: $color-primary-50;
+    font-weight: $weight-semibold;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

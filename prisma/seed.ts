@@ -6,6 +6,16 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Starting Riam Ensiling database seed...");
 
+  // Clear existing demo data in order of foreign key dependency
+  await prisma.payment.deleteMany();
+  await prisma.bookingItem.deleteMany();
+  await prisma.booking.deleteMany();
+  await prisma.attraction.deleteMany();
+  await prisma.facility.deleteMany();
+  await prisma.galleryItem.deleteMany();
+  await prisma.ticket.deleteMany();
+  await prisma.gazebo.deleteMany();
+
   // ---- 1. Seed Admin ----
   const adminEmail = "admin@riamensiling.id";
   const passwordHash = await bcrypt.hash("admin123", 10);
@@ -48,10 +58,12 @@ async function main() {
     },
   ];
 
+  const createdAttractions = [];
   for (const attr of attractions) {
-    await prisma.attraction.create({ data: attr });
+    const item = await prisma.attraction.create({ data: attr });
+    createdAttractions.push(item);
   }
-  console.log(`✅ ${attractions.length} attractions seeded.`);
+  console.log(`✅ ${createdAttractions.length} attractions seeded.`);
 
   // ---- 3. Seed Facilities ----
   const facilities = [
@@ -106,7 +118,7 @@ async function main() {
   console.log(`✅ ${galleryItems.length} gallery items seeded.`);
 
   // ---- 5. Seed Tickets ----
-  const tickets = [
+  const ticketsData = [
     {
       name: "Tiket Masuk Dewasa",
       price: 15000,
@@ -121,13 +133,15 @@ async function main() {
     },
   ];
 
-  for (const ticket of tickets) {
-    await prisma.ticket.create({ data: ticket });
+  const tickets = [];
+  for (const ticket of ticketsData) {
+    const item = await prisma.ticket.create({ data: ticket });
+    tickets.push(item);
   }
   console.log(`✅ ${tickets.length} tickets seeded.`);
 
   // ---- 6. Seed Gazebos ----
-  const gazebos = [
+  const gazebosData = [
     {
       code: "GZB-A1",
       name: "Gazebo Utama A1 (Pinggir Riam)",
@@ -154,10 +168,58 @@ async function main() {
     },
   ];
 
-  for (const gzb of gazebos) {
-    await prisma.gazebo.create({ data: gzb });
+  const gazebos = [];
+  for (const gzb of gazebosData) {
+    const item = await prisma.gazebo.create({ data: gzb });
+    gazebos.push(item);
   }
   console.log(`✅ ${gazebos.length} gazebos seeded.`);
+
+  // ---- 7. Seed Sample Booking for Admin Testing ----
+  const sampleVisitDate = new Date();
+  sampleVisitDate.setDate(sampleVisitDate.getDate() + 2);
+
+  const sampleBooking = await prisma.booking.create({
+    data: {
+      referenceCode: "RE-20260822-DEMO",
+      customerName: "Budi Santoso",
+      whatsappNumber: "081234567890",
+      visitDate: sampleVisitDate,
+      status: "PAID",
+      totalPrice: 105000,
+      expiresAt: new Date(Date.now() + 3600000 * 24),
+      items: {
+        create: [
+          {
+            itemType: "TICKET",
+            itemId: tickets[0].id,
+            itemName: "Tiket Masuk Dewasa",
+            quantity: 2,
+            unitPrice: 15000,
+            subtotal: 30000,
+          },
+          {
+            itemType: "GAZEBO",
+            itemId: gazebos[0].id,
+            itemName: "Gazebo Utama A1 (Pinggir Riam)",
+            quantity: 1,
+            unitPrice: 75000,
+            subtotal: 75000,
+            gazeboId: gazebos[0].id,
+          },
+        ],
+      },
+      payments: {
+        create: {
+          provider: "midtrans",
+          providerOrderId: "RE-20260822-DEMO-1",
+          providerTransactionId: "trx-demo-123456",
+          status: "settlement",
+        },
+      },
+    },
+  });
+  console.log(`✅ Sample booking created: ${sampleBooking.referenceCode}`);
 
   console.log("🎉 Seeding completed successfully!");
 }

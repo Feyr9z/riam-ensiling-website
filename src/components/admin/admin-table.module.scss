@@ -1,0 +1,132 @@
+@use 'sass:color';
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-6;
+  flex-wrap: wrap;
+  gap: $space-4;
+}
+
+.tableCard {
+  background-color: $color-surface;
+  border-radius: $radius-xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: $text-sm;
+
+  th {
+    background-color: $color-surface-alt;
+    color: $color-text-secondary;
+    font-weight: $weight-semibold;
+    font-size: $text-xs;
+    text-transform: uppercase;
+    letter-spacing: $tracking-wide;
+    padding: $space-3 $space-4;
+    border-bottom: 1px solid $color-border;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: $space-4;
+    border-bottom: 1px solid $color-border;
+    color: $color-text-primary;
+    vertical-align: middle;
+
+    &:last-child {
+      white-space: nowrap;
+    }
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover td {
+    background-color: rgba($color-primary-50, 0.4);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.formCard {
+  background-color: $color-surface;
+  border-radius: $radius-xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  padding: $space-6;
+  margin-bottom: $space-6;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.label {
+  display: block;
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $space-2;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: $space-3 $space-4;
+  font-size: $text-sm;
+  font-family: $font-body;
+  color: $color-text-primary;
+  background-color: $color-surface;
+  border: 1px solid $color-border-strong;
+  border-radius: $radius-md;
+  @include transition(border-color box-shadow);
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+  }
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.emptyState {
+  padding: $space-12 $space-4;
+  text-align: center;
+  color: $color-text-muted;
+
+  p {
+    margin-top: $space-2;
+  }
+}
