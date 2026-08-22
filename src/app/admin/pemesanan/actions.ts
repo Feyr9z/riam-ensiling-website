@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { getAdminSession } from "@/lib/auth";
-import type { BookingStatus } from "@prisma/client";
+import { BookingStatus } from "@prisma/client";
 
 async function checkAuth() {
   const session = await getAdminSession();
