@@ -65,6 +65,21 @@ html {
   tab-size: 2;
 }
 
+body {
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+// Midtrans Snap Popup Mobile Touch Overlay Fix
+#snap-container,
+iframe[src*="midtrans"],
+iframe[id*="snap"] {
+  z-index: 999999 !important;
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+
 // Remove default button / input styles
 button {
   cursor: pointer;

@@ -171,14 +171,17 @@
     gap: $space-3;
 
     button {
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
       border-radius: $radius-full;
       border: 1px solid $color-border;
       background-color: $color-surface-alt;
       font-weight: $weight-bold;
-      font-size: $text-lg;
+      font-size: $text-xl;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &:hover:not(:disabled) {
         background-color: $color-primary-50;
@@ -289,4 +292,14 @@
   justify-content: space-between;
   gap: $space-4;
   margin-top: $space-6;
+
+  @include respond-below(sm) {
+    flex-direction: column-reverse;
+    gap: $space-3;
+
+    button,
+    a {
+      width: 100%;
+    }
+  }
 }

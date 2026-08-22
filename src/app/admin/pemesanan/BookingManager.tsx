@@ -49,22 +49,22 @@ const STATUS_MAP: Record<string, BookingStatus> = {
 // Allowed transitions mapping for Admin UI dropdown
 const ALLOWED_TRANSITIONS: Record<string, { value: string; label: string }[]> = {
   PENDING: [
-    { value: "PAID", label: "Set ke Paid (Verifikasi Pembayaran Manual)" },
-    { value: "CANCELLED", label: "Set ke Cancelled (Dibatalkan)" },
-    { value: "EXPIRED", label: "Set ke Expired (Kedaluwarsa)" },
+    { value: "PAID", label: "Set ke Paid" },
+    { value: "CANCELLED", label: "Set ke Cancelled" },
+    { value: "EXPIRED", label: "Set ke Expired" },
   ],
   PAID: [
-    { value: "COMPLETED", label: "Set ke Completed (Wisatawan Sudah Berkunjung)" },
-    { value: "CANCELLED", label: "Set ke Cancelled (Dibatalkan & Refund)" },
+    { value: "COMPLETED", label: "Set ke Completed" },
+    { value: "CANCELLED", label: "Set ke Cancelled" },
   ],
   COMPLETED: [], // Final state
   CANCELLED: [
-    { value: "PAID", label: "Aktifkan Kembali → Paid (Lunas)" },
-    { value: "PENDING", label: "Aktifkan Kembali → Pending" },
+    { value: "PAID", label: "Aktifkan (Paid)" },
+    { value: "PENDING", label: "Aktifkan (Pending)" },
   ],
   EXPIRED: [
-    { value: "PAID", label: "Aktifkan Kembali → Paid (Lunas)" },
-    { value: "PENDING", label: "Aktifkan Kembali → Pending" },
+    { value: "PAID", label: "Aktifkan (Paid)" },
+    { value: "PENDING", label: "Aktifkan (Pending)" },
   ],
 };
 
@@ -220,7 +220,7 @@ export default function BookingManager({ initialItems }: { initialItems: Booking
                 <th>Tgl Kunjungan</th>
                 <th>Total Harga</th>
                 <th>Status Saat Ini</th>
-                <th>Aksi & Ubah Status (Rule-Enforced)</th>
+                <th>Aksi & Status</th>
               </tr>
             </thead>
             <tbody>
