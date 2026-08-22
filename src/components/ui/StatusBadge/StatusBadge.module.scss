@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -15,21 +17,21 @@
   &--pending {
     background-color: $color-warning-light;
     color: $color-warning;
-    border-color: lighten($color-warning, 30%);
+    border-color: color.adjust($color-warning, $lightness: 30%);
   }
 
   // Status: Paid (Sudah dibayar)
   &--paid {
     background-color: $color-success-light;
     color: $color-success;
-    border-color: lighten($color-success, 35%);
+    border-color: color.adjust($color-success, $lightness: 35%);
   }
 
   // Status: Cancelled (Dibatalkan)
   &--cancelled {
     background-color: $color-error-light;
     color: $color-error;
-    border-color: lighten($color-error, 25%);
+    border-color: color.adjust($color-error, $lightness: 25%);
   }
 
   // Status: Expired (Kedaluwarsa)
@@ -50,7 +52,7 @@
   &--info {
     background-color: $color-info-light;
     color: $color-info;
-    border-color: lighten($color-info, 35%);
+    border-color: color.adjust($color-info, $lightness: 35%);
   }
 }
 

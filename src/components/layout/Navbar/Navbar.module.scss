@@ -77,7 +77,7 @@ $navbar-height-md: 76px;
 .navLink {
   display: inline-flex;
   align-items: center;
-  font-size: $text-sm;
+  font-size: $text-xs;
   font-weight: $weight-medium;
   color: $color-text-secondary;
   text-decoration: none;
@@ -85,6 +85,10 @@ $navbar-height-md: 76px;
   border-radius: $radius-md;
   @include transition(color background-color);
   white-space: nowrap;
+
+  @include respond-to(xl) {
+    font-size: $text-sm;
+  }
 
   &:hover {
     color: $color-text-primary;

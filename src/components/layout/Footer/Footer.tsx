@@ -7,7 +7,7 @@ import styles from "./Footer.module.scss";
 const NAV_LINKS = [
   { label: "Beranda", href: "/" },
   { label: "Tentang", href: "/tentang" },
-  { label: "Atraksi", href: "/atraksi" },
+  { label: "Atraksi Wisata", href: "/atraksi" },
   { label: "Fasilitas", href: "/fasilitas" },
   { label: "Galeri", href: "/galeri" },
 ];
@@ -19,7 +19,6 @@ const BOOKING_LINKS = [
   { label: "Kontak & Lokasi", href: "/kontak" },
 ];
 
-// Inline SVG icons (avoids extra icon library dependency)
 function IconInstagram() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -68,7 +67,6 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.main}>
-        {/* Brand column */}
         <div className={styles.brand}>
           <Link href="/" className={styles.logo}>
             Riam Ensiling
@@ -97,7 +95,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Navigation column */}
         <div className={styles.column}>
           <p className={styles.columnTitle}>Navigasi</p>
           <ul className={styles.columnLinks} role="list">
@@ -111,7 +108,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Booking & contact column */}
         <div className={styles.column}>
           <p className={styles.columnTitle}>Pemesanan</p>
           <ul className={styles.columnLinks} role="list">
@@ -131,12 +127,11 @@ export default function Footer() {
           </div>
           <div className={styles.contactItem}>
             <IconClock />
-            <span>Jam operasional belum tersedia</span>
+            <span>Jam Operasional: 08:00 - 17:00 WIB</span>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className={styles.bottom}>
         <div className={styles.bottomInner}>
           <p className={styles.copyright}>
