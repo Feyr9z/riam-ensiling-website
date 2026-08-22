@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -122,8 +124,8 @@
     color: $color-white;
 
     &:hover:not(:disabled) {
-      background-color: darken($color-error, 8%);
-      border-color: darken($color-error, 8%);
+      background-color: color.adjust($color-error, $lightness: -8%);
+      border-color: color.adjust($color-error, $lightness: -8%);
     }
 
     &:focus-visible {

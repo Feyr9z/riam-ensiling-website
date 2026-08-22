@@ -3,7 +3,6 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { Navbar, Footer } from "@/components";
 import "@/styles/globals.scss";
 
-// ---- Google Fonts via next/font (zero CLS, self-hosted) ----
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-heading",
@@ -18,33 +17,45 @@ const inter = Inter({
   display: "swap",
 });
 
-// ---- SEO Metadata ----
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  ),
   title: {
-    default: "Riam Ensiling",
+    default: "Riam Ensiling — Wisata Alam & Pemesanan Gazebo",
     template: "%s | Riam Ensiling",
   },
   description:
-    "Wisata alam Riam Ensiling — informasi destinasi, tiket, dan pemesanan gazebo di Desa Lumut, Kecamatan Toba, Kabupaten Sanggau.",
+    "Informasi destinasi wisata alam Riam Ensiling, harga tiket masuk, dan pemesanan sewa gazebo secara online di Desa Lumut, Kecamatan Toba, Kabupaten Sanggau.",
   keywords: [
     "riam ensiling",
-    "wisata sanggau",
+    "wisata alam sanggau",
     "wisata kalimantan barat",
-    "wisata alam",
-    "tiket masuk",
-    "pemesanan gazebo",
+    "sewa gazebo riam ensiling",
+    "tiket masuk riam ensiling",
+    "destinasi wisata sanggau",
   ],
+  authors: [{ name: "Pengelola Wisata Riam Ensiling" }],
   openGraph: {
-    title: "Riam Ensiling",
+    title: "Riam Ensiling — Wisata Alam & Pemesanan Gazebo",
     description:
-      "Wisata alam Riam Ensiling — informasi, tiket, dan pemesanan gazebo.",
+      "Nikmati keasrian alam Riam Ensiling. Dapatkan informasi tiket dan sewa gazebo online secara mudah.",
     type: "website",
     locale: "id_ID",
+    siteName: "Riam Ensiling",
   },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: "Riam Ensiling — Wisata Alam Sanggau",
+    description:
+      "Wisata alam Riam Ensiling — Informasi destinasi, tiket, dan pemesanan gazebo online.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
-// ---- Root Layout ----
 export default function RootLayout({
   children,
 }: {
@@ -56,6 +67,9 @@ export default function RootLayout({
       className={`${plusJakartaSans.variable} ${inter.variable}`}
     >
       <body>
+        <a href="#main-content" className="skip-link">
+          Lompat ke konten utama
+        </a>
         <Navbar />
         <main id="main-content">{children}</main>
         <Footer />
@@ -63,4 +77,3 @@ export default function RootLayout({
     </html>
   );
 }
-
