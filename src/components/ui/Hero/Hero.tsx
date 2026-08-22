@@ -29,7 +29,6 @@ export default function Hero({
           alt={backgroundImage.alt}
           fill
           priority
-          quality={90}
           sizes="100vw"
         />
       </div>

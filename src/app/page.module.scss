@@ -1,0 +1,294 @@
+@use 'sass:color';
+
+// ---- Section wrapper ----
+.section {
+  padding: $space-12 0;
+
+  @include respond-to(md) {
+    padding: $space-16 0;
+  }
+}
+
+.sectionAlt {
+  background-color: $color-surface-alt;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+}
+
+// ---- Grids ----
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.grid4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-4;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// ---- Feature / Stat Card ----
+.statCard {
+  background-color: $color-white;
+  padding: $space-6;
+  border-radius: $radius-xl;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-xs;
+  text-align: center;
+  @include transition(transform box-shadow);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+  }
+
+  .statIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-lg;
+    background-color: $color-primary-50;
+    color: $color-primary;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $space-3;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .statTitle {
+    font-size: $text-lg;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $space-1;
+  }
+
+  .statDesc {
+    font-size: $text-sm;
+    color: $color-text-secondary;
+  }
+}
+
+// ---- Pricing Card Summary ----
+.priceCard {
+  background-color: $color-white;
+  padding: $space-6;
+  border-radius: $radius-xl;
+  border: 1px solid $color-border;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: $shadow-sm;
+
+  .priceHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: $space-4;
+  }
+
+  .priceTitle {
+    font-size: $text-xl;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+  }
+
+  .priceTag {
+    font-size: $text-2xl;
+    font-weight: $weight-bold;
+    color: $color-primary;
+
+    span {
+      font-size: $text-xs;
+      font-weight: $weight-medium;
+      color: $color-text-secondary;
+    }
+  }
+
+  .priceDesc {
+    font-size: $text-sm;
+    color: $color-text-secondary;
+    margin-bottom: $space-6;
+    line-height: $leading-relaxed;
+  }
+}
+
+// ---- CTA Banner Section ----
+.ctaSection {
+  background: linear-gradient(135deg, $color-primary-dark 0%, $color-primary 100%);
+  color: $color-white;
+  padding: $space-12 $space-6;
+  border-radius: $radius-2xl;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: $shadow-lg;
+
+  @include respond-to(md) {
+    padding: $space-16 $space-10;
+  }
+
+  .ctaTitle {
+    font-family: $font-heading;
+    font-size: $text-2xl;
+    font-weight: $weight-bold;
+    color: $color-white;
+    margin-bottom: $space-3;
+
+    @include respond-to(md) {
+      font-size: $text-3xl;
+    }
+  }
+
+  .ctaDesc {
+    font-size: $text-base;
+    color: rgba($color-white, 0.9);
+    max-width: 600px;
+    margin: 0 auto $space-8 auto;
+    line-height: $leading-relaxed;
+
+    @include respond-to(md) {
+      font-size: $text-lg;
+    }
+  }
+
+  .ctaActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-4;
+    justify-content: center;
+  }
+}
+
+// ---- Location Box ----
+.locationGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-8;
+
+  @include respond-to(lg) {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+}
+
+.locationInfo {
+  .infoList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    margin-top: $space-6;
+  }
+
+  .infoItem {
+    display: flex;
+    gap: $space-4;
+    align-items: flex-start;
+
+    .infoIcon {
+      width: 40px;
+      height: 40px;
+      border-radius: $radius-md;
+      background-color: $color-primary-50;
+      color: $color-primary;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .infoText {
+      strong {
+        display: block;
+        font-size: $text-base;
+        color: $color-text-primary;
+        margin-bottom: $space-1;
+      }
+      span {
+        font-size: $text-sm;
+        color: $color-text-secondary;
+        line-height: $leading-relaxed;
+      }
+    }
+  }
+}
+
+.mapCard {
+  background-color: $color-surface-alt;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  padding: $space-8;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .mapIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: $radius-full;
+    background-color: $color-primary-100;
+    color: $color-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $space-4;
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  h3 {
+    font-size: $text-xl;
+    font-weight: $weight-bold;
+    color: $color-text-primary;
+    margin-bottom: $space-2;
+  }
+
+  p {
+    font-size: $text-sm;
+    color: $color-text-secondary;
+    margin-bottom: $space-6;
+    max-width: 400px;
+  }
+}
+
+.moreLinkWrapper {
+  text-align: center;
+  margin-top: $space-10;
+}
