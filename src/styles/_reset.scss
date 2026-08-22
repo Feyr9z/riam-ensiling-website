@@ -1,0 +1,98 @@
+// ============================================================
+// _reset.scss — Riam Ensiling Design System
+//
+// Modern CSS reset based on Andy Bell's reset + additions.
+// Applied globally via globals.scss.
+// ============================================================
+
+@use './variables' as *;
+
+// Use border-box sizing everywhere
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Remove default margin and padding
+* {
+  margin: 0;
+  padding: 0;
+}
+
+// Improve media defaults
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+// Inherit fonts for form elements
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+// Avoid text overflows
+p,
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+// Remove list styles when role=list is used (accessibility-safe)
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+// Smooth scrolling (only when no reduce-motion preference)
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+// Set core HTML defaults
+html {
+  font-size: 100%; // 16px base
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  tab-size: 2;
+}
+
+// Remove default button / input styles
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+// Improve link defaults
+a {
+  color: inherit;
+  text-decoration-skip-ink: auto;
+}
+
+// Make sure hr is consistent
+hr {
+  border: none;
+  border-top: 1px solid $color-border;
+  color: inherit;
+}
+
+// Remove animation for people who prefer reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
