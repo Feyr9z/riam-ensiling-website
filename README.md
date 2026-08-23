@@ -61,7 +61,7 @@ Salin berkas `.env.example` menjadi `.env`:
 ```bash
 cp .env.example .env
 ```
-Isi variabel `.env` sesuai kebutuhan.
+Isi variabel `.env` sesuai kebutuhan seperti generate session key ('openssl rand -base64 32` di terminal).
 
 ### 3. Jalankan Database MySQL via Docker Compose
 ```bash
