@@ -186,15 +186,17 @@ $navbar-height-md: 76px;
   padding: $space-4;
   border-top: 1px solid $color-border;
 
-  // Hidden by default
+  // Hidden by default — pointer-events: none ensures it never blocks clicks even during transitions
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transform: translateY(-8px);
   @include transition(opacity visibility transform);
 
   &--open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: translateY(0);
   }
 
