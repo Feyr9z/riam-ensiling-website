@@ -111,7 +111,7 @@ Isi `ADMIN_SESSION_SECRET` dengan string acak (misal buat via `openssl rand -bas
 
 - URL Login Admin: `http://localhost:3000/admin/login`
 - Email Admin: `admin@riamensiling.id`
-- Password Admin: `AdminEnsiling2026!`
+- Password Admin: `admin123`
 
 ---
 
