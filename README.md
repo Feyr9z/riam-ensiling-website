@@ -12,7 +12,7 @@ Platform sistem informasi pariwisata dan pemesanan tiket masuk serta gazebo onli
 - Pengesahan Admin: HTTP-Only Cookie Session (`iron-session`) + `bcryptjs`
 - Gateway Pembayaran: Midtrans Snap Sandbox (QRIS, ShopeePay, GoPay, Virtual Account)
 - Validasi Data: Zod Schema
-- Kontainerisasi: Docker & Docker Compose
+- Kontainerisasi: Docker & Docker Compose (`Dockerfile`, `Dockerfile.dev`, `docker-compose.yml`)
 
 ---
 
@@ -61,28 +61,49 @@ Salin berkas `.env.example` menjadi `.env`:
 ```bash
 cp .env.example .env
 ```
-Isi variabel `.env` sesuai kebutuhan seperti generate session key ('openssl rand -base64 32` di terminal).
+Isi `ADMIN_SESSION_SECRET` dengan string acak (misal buat via `openssl rand -base64 32`).
 
-### 3. Jalankan Database MySQL via Docker Compose
-```bash
-docker-compose up -d mysql
-```
-MySQL akan berjalan pada port `3307` di localhost.
+---
 
-### 4. Sinkronisasi Database Schema & Seed Data
-```bash
-# Push schema Prisma ke database MySQL
-npx prisma db push
+### Metode A: Pengembangan Hybrid (Aplikasi di Host, Database MySQL via Docker)
 
-# Seed data awal (Admin, Atraksi, Fasilitas, Galeri, Tiket, Gazebo, Sample Booking)
-npm run db:seed
-```
+1. Jalankan kontainer MySQL:
+   ```bash
+   docker compose up -d mysql
+   ```
+2. Pastikan `DATABASE_URL` di `.env` mengarah ke host port 3307:
+   ```env
+   DATABASE_URL="mysql://root:password@127.0.0.1:3307/riam_ensiling"
+   ```
+3. Push schema dan jalankan seeding data awal:
+   ```bash
+   npx prisma db push
+   npm run db:seed
+   ```
+4. Jalankan server dev Next.js:
+   ```bash
+   npm run dev
+   ```
+   Buka browser di `http://localhost:3000`.
 
-### 5. Jalankan Server Dev Next.js
-```bash
-npm run dev
-```
-Buka browser di `http://localhost:3000`.
+---
+
+### Metode B: Kontainerisasi Penuh (Seluruh Aplikasi & Database via Docker Compose)
+
+1. Pastikan `DATABASE_URL` di `.env` menggunakan hostname service `mysql`:
+   ```env
+   DATABASE_URL="mysql://root:password@mysql:3306/riam_ensiling"
+   ```
+2. Jalankan seluruh layanan kontainer:
+   ```bash
+   docker compose up -d
+   ```
+3. Jalankan migrasi dan seeding di dalam kontainer app:
+   ```bash
+   docker compose exec app npx prisma db push
+   docker compose exec app npm run db:seed
+   ```
+4. Aplikasi dapat diakses di `http://localhost:3000`.
 
 ---
 
@@ -142,8 +163,9 @@ riam-ensiling-website/
 │   └── styles/              # SCSS Design Tokens, Variables, Mixins, Reset
 ├── .env.example             # Template Environment Variables
 ├── docker-compose.yml       # Konfigurasi Docker MySQL & App
+├── Dockerfile               # Multi-stage Dockerfile produksi
 ├── Dockerfile.dev           # Container setup dev
-├── next.config.ts           # Konfigurasi Next.js
+├── next.config.ts           # Konfigurasi Next.js (output: standalone)
 ├── PRD.md                   # Spesifikasi Utama & Aturan Proyek (Internal)
 └── AGENTS.md                # Aturan Kerja Tim Pengembang (Internal)
 ```
