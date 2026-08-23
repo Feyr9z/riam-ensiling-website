@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
 import path from "path";
+import { pathToFileURL } from "url";
 
-// Converts an absolute path to always use forward slashes (required for Turbopack + Dart Sass on Windows)
-function toSassImportPath(segments: string[]): string {
-  return path.resolve(...segments).split(path.sep).join("/");
+// Generates a Sass-safe file:// URL that works on Windows and Linux/macOS.
+// Dart Sass understands file:// URLs natively; absolute Win32 paths (C:\...) do not work.
+function sassFileUrl(absPath: string): string {
+  return pathToFileURL(path.resolve(absPath)).href;
 }
 
 const nextConfig: NextConfig = {
@@ -29,8 +31,8 @@ const nextConfig: NextConfig = {
 
   sassOptions: {
     additionalData: [
-      `@use "${toSassImportPath([__dirname, "src/styles/_variables"])}" as *;`,
-      `@use "${toSassImportPath([__dirname, "src/styles/_mixins"])}" as *;`,
+      `@use "${sassFileUrl("src/styles/_variables")}" as *;`,
+      `@use "${sassFileUrl("src/styles/_mixins")}" as *;`,
     ].join("\n") + "\n",
   },
 };
